@@ -30,7 +30,6 @@ const RegisterForm = () => {
                 const res = await registerAccount(account);
                 return res.data;
             }catch(err){
-                
                 if(err instanceof AxiosError)
                     toast.error(err.response?.data.msg || err.message)
                 else
@@ -39,10 +38,9 @@ const RegisterForm = () => {
             }
         },
         onSuccess:(data: any)=>{
-
             toast.success(data.msg || "Account was successfully created !");
         }
-    })
+    });
 
 
     useEffect(()=>{
