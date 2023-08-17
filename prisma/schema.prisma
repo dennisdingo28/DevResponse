@@ -10,6 +10,7 @@ datasource db {
 model User {
   id       String @id @default(uuid())
   username String @unique
-  image    String
   email    String @unique
+  password String
+  image    String @default("/defaultProfile.png")
 }

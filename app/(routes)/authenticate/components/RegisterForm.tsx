@@ -17,6 +17,8 @@ const RegisterForm = () => {
 
     const [showErrors,setShowErrors] = useState<boolean>(false);
     
+    const [imageUrl,setImageUrl] = useState<string>("");
+
     const {register,handleSubmit,formState:{errors}} = useForm({
         resolver:zodResolver(RegisterValidator),
         defaultValues:{
@@ -28,7 +30,7 @@ const RegisterForm = () => {
 
     const {mutate: createAccount, isLoading} = useMutation({
         mutationFn:async(account: RegisterRequest)=>{
-            const res = await registerAccount(account);
+            const res = await registerAccount(account,imageUrl);
             return res.data;
         },
         onSuccess:(data: any)=>{
@@ -58,7 +60,7 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit((data)=>createAccount(data))}>
         <div className="mb-2 ml-[4px]">
-            <ImageUpload/>
+            <ImageUpload imageUrl={imageUrl} setImageUrl={setImageUrl}/>
         </div>
         <div className="space-y-2">
             <FormInput register={register} showErrorMessage={showErrors} inputErrorMessage={errors.username?.message} registerName="username" placeholderLabel="@username" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
