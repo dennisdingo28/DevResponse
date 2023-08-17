@@ -1,8 +1,12 @@
+import { getAuthSession } from '@/lib/auth'
 import Logo from './Logo'
 import Navigation from './Navigation'
 import Container from './ui/Container'
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await getAuthSession();
+  console.log(session);
+  
   return (
     <div>
         <Container>
