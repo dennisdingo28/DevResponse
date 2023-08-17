@@ -40,7 +40,6 @@ export const authOptions: NextAuthOptions = {
                     email:token.email!,
                 }});
                 
-                
                 if(!userAlreadyExists){
                     const newUser = await prismadb.user.create({
                         data:{

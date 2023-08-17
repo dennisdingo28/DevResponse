@@ -10,6 +10,8 @@ import { useMutation } from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import { toast } from "react-hot-toast";
 import Button from "@/components/ui/Button";
+import ImageUpload from "./ImageUpload";
+
 
 const RegisterForm = () => {
 
@@ -26,19 +28,20 @@ const RegisterForm = () => {
 
     const {mutate: createAccount, isLoading} = useMutation({
         mutationFn:async(account: RegisterRequest)=>{
-            try{
-                const res = await registerAccount(account);
-                return res.data;
-            }catch(err){
-                if(err instanceof AxiosError)
-                    toast.error(err.response?.data.msg || err.message)
-                else
-                    toast.error((err as Error).message);
-                return null;
-            }
+            const res = await registerAccount(account);
+            return res.data;
         },
         onSuccess:(data: any)=>{
             toast.success(data.msg || "Account was successfully created !");
+        },
+        onError:(err: any)=>{
+            console.log(err);
+            
+            if(err instanceof AxiosError)
+                toast.error(err.response?.data || err.message)
+            else
+                toast.error((err as Error).message);
+            return null;
         }
     });
 
@@ -54,6 +57,9 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit((data)=>createAccount(data))}>
+        <div className="mb-2 ml-[4px]">
+            <ImageUpload/>
+        </div>
         <div className="space-y-2">
             <FormInput register={register} showErrorMessage={showErrors} inputErrorMessage={errors.username?.message} registerName="username" placeholderLabel="@username" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
             <FormInput register={register} showErrorMessage={showErrors} inputErrorMessage={errors.email?.message} registerName="email" placeholderLabel="@email" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
