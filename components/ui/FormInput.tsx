@@ -4,19 +4,20 @@ import { cn } from "@/lib/utils/cn";
 import { HTMLAttributes } from "react";
 
 interface FormInputProps extends HTMLAttributes<HTMLInputElement>{
-    labelText?: string;
-    placeholderLabel?: string;
-    inputMessage?: string;
-    register?: any;
-    registerName?: string;
+  labelText?: string;
+  placeholderLabel?: string;
+  inputErrorMessage?: string;
+  register?: any;
+  registerName?: string;
+  showErrorMessage?: boolean;
 }
 
-const FormInput: React.FC<FormInputProps> = ({labelText,placeholderLabel,inputMessage,className,register,registerName}) => {
+const FormInput: React.FC<FormInputProps> = ({labelText,placeholderLabel,showErrorMessage,inputErrorMessage,className,register,registerName}) => {
   return (
     <div className="">
         {labelText && labelText.trim()!=='' && <label>{labelText}</label>}
         <input placeholder={placeholderLabel} className={cn(className)} {...register(`${registerName}`)}/>
-        {inputMessage && inputMessage.trim()!=='' && <small>{inputMessage}</small>}
+        {showErrorMessage && inputErrorMessage && inputErrorMessage.trim()!=='' && <small className="text-red-400">{inputErrorMessage}</small>}
     </div>
   )
 }

@@ -1,5 +1,8 @@
+import AuthProvider from '@/providers/AuthProvider'
 import './globals.css'
 import type { Metadata } from 'next'
+import QueryProvider from '@/providers/QueryProvider'
+import ToasterProvider from '@/providers/ToastProvider'
 
 export const metadata: Metadata = {
   title: 'DevResponse',
@@ -13,9 +16,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='min-h-screen bg-darkBlue '>
-        {children}
-      </body>
+      <AuthProvider>
+        <QueryProvider>
+          <body className='min-h-screen bg-darkBlue'>
+            <ToasterProvider/>
+            {children}
+          </body>
+        </QueryProvider>
+      </AuthProvider>
     </html>
   )
 }
