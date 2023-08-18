@@ -16,11 +16,11 @@ export async function POST(req: Request){
 
         const usernameAlreadyExists = await prismadb.user.findUnique({
             where:{
-                username:accountData.username,
+                name:accountData.name,
             },
         });
         if(usernameAlreadyExists){
-            return new NextResponse(`Username ${accountData.username} is already taken!`,{status:400});
+            return new NextResponse(`Username ${accountData.name} is already taken!`,{status:400});
         }
         const emailAreadyExists = await prismadb.user.findUnique({
             where:{

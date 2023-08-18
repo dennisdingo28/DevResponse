@@ -21,7 +21,7 @@ const RegisterForm = () => {
     const {register,handleSubmit,formState:{errors}} = useForm({
         resolver:zodResolver(RegisterValidator),
         defaultValues:{
-            username:"",
+            name:"",
             email:"",
             password:"",
         }
@@ -62,7 +62,7 @@ const RegisterForm = () => {
             <ImageUpload imageUrl={imageUrl} setImageUrl={setImageUrl}/>
         </div>
         <div className="space-y-2">
-            <FormInput inputType="text" register={register} showErrorMessage={showErrors} inputErrorMessage={errors.username?.message} registerName="username" placeholderLabel="@username" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
+            <FormInput inputType="text" register={register} showErrorMessage={showErrors} inputErrorMessage={errors.name?.message} registerName="name" placeholderLabel="@username" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
             <FormInput inputType="text" register={register} showErrorMessage={showErrors} inputErrorMessage={errors.email?.message} registerName="email" placeholderLabel="@email" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
             <FormInput inputType={"password"} register={register} showErrorMessage={showErrors} inputErrorMessage={errors.password?.message} registerName="password" placeholderLabel="@password" className="w-full rounded-l-md -p-2 outline-none bg-darkBlue p-2 text-blackGray font-medium"/>
         </div>

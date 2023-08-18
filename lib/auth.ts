@@ -94,49 +94,53 @@ export const authOptions: NextAuthOptions = {
         async signIn({user,account,profile}){
             const usernameAlreadyExists = await prismadb.user.findUnique({
                 where:{
-                    username:user.name!,
+                    name:user.name!,
                     NOT:{
-                        provider:account?.provider,
-                    }
+                        provider: account?.provider,
+                    },
                 },
             });
+            
             if(usernameAlreadyExists){
                 throw new Error(`Username ${user.name} is already taken!`);
             }
+            
             const emailAreadyExists = await prismadb.user.findUnique({
                 where:{
                     email:user.email!,
                     NOT:{
-                        provider:account?.provider,
-                    }
+                        provider: account?.provider,
+                    },
                 },
             });
+            
             if(emailAreadyExists){
                 throw new Error(`Email ${user.email} is already taken!`);
             }
             return true;
         },
         async jwt({token,account,profile}){
+            
             if(token){
-                const userAlreadyExists = await prismadb.user.findUnique({
-                    where:{
-                        username:token.name!,
-                        email:token.email!,
-                        provider:account?.provider,
-                    }
-                });
-                if(!userAlreadyExists){
-                    const newUser = await prismadb.user.create({
-                        data:{
-                            username:token.name!,
+                    const currentUser = await prismadb.user.findUnique({
+                        where:{
+                            name:token.name!,
                             email:token.email!,
-                            image:token.picture!,
                             provider:account?.provider,
-                        }
-                    })
-                    token.id=newUser.id;
+                        },
+                    });
+                    if(!currentUser && account?.provider!=='credentials'){
+                        const newUser = await prismadb.user.create({
+                            data:{
+                                name:token.name!,
+                                email:token.email!,
+                                image:token.picture!,
+                                provider:account?.provider,
+                            }
+                        })
+                        token.id=newUser.id;
+                    }
                 }
-            }
             return token;
         },
         async session({token,session}){
