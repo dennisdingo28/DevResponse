@@ -2,6 +2,7 @@ import { NextAuthOptions, getServerSession } from "next-auth";
 import ValidString from "./utils/ValidString";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import prismadb from "./db";
 import generateJWT from "./generateJWT";
 
@@ -54,6 +55,40 @@ export const authOptions: NextAuthOptions = {
             clientId:getGithubCredentials().GITHUB_CLIENTID,
             clientSecret:getGithubCredentials().GITHUB_CLIENTSECRET,
         }),
+        CredentialsProvider({
+            name:"Credentials",
+            credentials: {
+                email: {
+                  label: "Email",
+                  type: "text",
+                  placeholder: "email",
+                },
+                password: {
+                  label: "Password",
+                  type: "password",
+                  placeholder: "your password",
+                },
+              },
+              //@ts-ignore
+            async authorize(credentials, req){
+                const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+                if (emailRegex.test(String(credentials?.email))) {
+                    const userAttempt = await prismadb.user.findUnique({where:{
+                        email:credentials?.email,
+                    }});
+                    console.log("cred",userAttempt);
+                    
+                    if(!userAttempt){
+                        throw new Error(`Cannot find any users with email ${credentials?.email}`);
+                    }
+                    if(userAttempt.password!==credentials?.password){
+                        throw new Error(`Password doesn't match !`);
+                    }
+                    return userAttempt;
+                }
+                throw new Error(`${credentials?.email} is not a valid email !`);
+            }
+        }),
     ],
     callbacks:{
         async signIn({user,account,profile}){
@@ -79,7 +114,6 @@ export const authOptions: NextAuthOptions = {
             if(emailAreadyExists){
                 throw new Error(`Email ${user.email} is already taken!`);
             }
-            
             return true;
         },
         async jwt({token,account,profile}){
@@ -102,7 +136,6 @@ export const authOptions: NextAuthOptions = {
                     })
                     token.id=newUser.id;
                 }
-                    
             }
             return token;
         },

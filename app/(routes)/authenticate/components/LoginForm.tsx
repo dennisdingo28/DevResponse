@@ -3,9 +3,9 @@
 import FormInput from "@/components/ui/FormInput";
 import {useForm} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterRequest, RegisterValidator } from "@/validators";
+import { LoginRequest, LoginValidator } from "@/validators";
 import { useEffect, useState } from "react";
-import registerAccount from "@/lib/api/registerAccount";
+import loginAccount from "@/lib/api/loginAccount";
 import { useMutation } from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import { toast } from "react-hot-toast";
@@ -19,29 +19,27 @@ const LoginForm = () => {
     const [showPassword,setShowPassword] = useState<boolean>(false);
 
     const {register,handleSubmit,formState:{errors}} = useForm({
-        resolver:zodResolver(RegisterValidator),
+        resolver:zodResolver(LoginValidator),
         defaultValues:{
             email:"",
             password:"",
         }
     });
 
-    const {mutate: createAccount, isLoading} = useMutation({
-        mutationFn:async(account: RegisterRequest)=>{
-            const res = await registerAccount(account,imageUrl);
-            return res.data;
+    const {mutate: signInAccount, isLoading} = useMutation({
+        mutationFn:async(credentials: LoginRequest)=>{
+            const res = await loginAccount(credentials);
+            return res;
         },
         onSuccess:(data: any)=>{
-            toast.success(data.msg || "Account was successfully created !");
+            console.log("login",data);
+            if(data.error && data.error.trim()!=='')
+                toast.success(data.error);
+            else
+                toast.success("Successfully logged in !");
         },
         onError:(err: any)=>{
-            console.log(err);
-            
-            if(err instanceof AxiosError)
-                toast.error(err.response?.data || err.message)
-            else
-                toast.error((err as Error).message);
-            return null;
+            toast.error((err as Error).message);
         }
     });
 
@@ -56,7 +54,7 @@ const LoginForm = () => {
     },[errors]);
 
   return (
-    <form onSubmit={handleSubmit((data)=>()=>{})}>
+    <form onSubmit={handleSubmit((data)=>signInAccount(data))}>
         <div className="space-y-2">
             <FormInput inputType="text" register={register} showErrorMessage={showErrors} inputErrorMessage={errors.email?.message} registerName="email" placeholderLabel="@email" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
             <FormInput inputType="password" register={register} showErrorMessage={showErrors} inputErrorMessage={errors.password?.message} registerName="password" placeholderLabel="@password" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>

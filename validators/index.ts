@@ -7,3 +7,10 @@ export const RegisterValidator = z.object({
     password:z.string({required_error:"Password is required"}).min(4,"Password must be at least 4 characters long !"),
 });
 export type RegisterRequest = z.infer<typeof RegisterValidator>;
+
+
+export const LoginValidator = z.object({
+    email:z.string({required_error:"Email is required"}).email("You must provide a valid email !"),
+    password:z.string({required_error:"Password is required"}).min(4,"Password must be at least 4 characters long !"),
+});
+export type LoginRequest = z.infer<typeof LoginValidator>;
