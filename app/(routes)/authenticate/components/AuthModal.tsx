@@ -2,9 +2,29 @@
 import { Dialog } from '@headlessui/react'
 import LoginProviders from './LoginProviders'
 import AuthTabs from './AuthTabs'
-
+import { useSearchParams } from 'next/navigation'
+import { toast } from 'react-hot-toast'
+import { useEffect, useState } from 'react'
 
 const AuthModal = () => {
+
+  const [errorMsg,setErrorMsg] = useState<string>();
+  const searchParams = useSearchParams();
+
+  const errorMessage = searchParams.get("error");
+
+  // useEffect(()=>{
+  //   if(errorMessage && errorMessage.trim()!=='')
+  //     setErrorMsg(errorMessage)
+  // },[errorMessage])
+
+  useEffect(()=>{
+    if(errorMessage && errorMessage.trim()!=='')
+      setErrorMsg(errorMessage);
+    if(errorMsg && errorMsg.trim()!=='')
+      toast.error(errorMsg)
+  },[errorMsg,errorMessage]);
+
   return (
     <Dialog open={true} onClose={()=>{}} className={"relative z-50"}>
         <div className="fixed inset-0 flex items-center justify-center p-4">

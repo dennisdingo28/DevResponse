@@ -56,10 +56,13 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks:{
-        async signIn(){
-            throw new Error("idk")
+        async signIn({user}){
+            throw new Error("id")           
+            return true;            
         },
         async jwt({token,account,profile}){
+            console.log("got here");
+            
             if(token){
                 const userAlreadyExists = await prismadb.user.findUnique({where:{
                     username:token.name!,

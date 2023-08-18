@@ -12,12 +12,8 @@ datasource db {
 
 model User {
   id       String  @id @default(uuid())
-<<<<<<< HEAD
-=======
   username String  @unique
->>>>>>> 613efd06e35c292fc344479e0254aeb5a7698884
   email    String  @unique
   image    String  @default("/defaultProfile.png")
   password String?
-  username String  @unique
 }
