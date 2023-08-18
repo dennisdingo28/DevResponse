@@ -11,7 +11,9 @@ const AuthTabs = () => {
       <Tab.Group defaultIndex={0}>
         <Tab.Panels>
           <Tab.Panel>
-            <LoginForm/>
+            <div className="mt-3">
+              <LoginForm/>
+            </div>
           </Tab.Panel>
           <Tab.Panel>
             <RegisterForm/>
