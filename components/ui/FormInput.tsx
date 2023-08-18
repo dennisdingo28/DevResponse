@@ -10,13 +10,14 @@ interface FormInputProps extends HTMLAttributes<HTMLInputElement>{
   register?: any;
   registerName?: string;
   showErrorMessage?: boolean;
+  inputType?: "text" | "password";
 }
 
-const FormInput: React.FC<FormInputProps> = ({labelText,placeholderLabel,showErrorMessage,inputErrorMessage,className,register,registerName}) => {
+const FormInput: React.FC<FormInputProps> = ({labelText,placeholderLabel,showErrorMessage,inputErrorMessage,className,register,registerName,inputType}) => {
   return (
-    <div className="">
+    <div className={className}>
         {labelText && labelText.trim()!=='' && <label>{labelText}</label>}
-        <input placeholder={placeholderLabel} className={cn(className)} {...register(`${registerName}`)}/>
+        <input type={inputType || "text"} placeholder={placeholderLabel} className={cn(className)} {...register(`${registerName}`)}/>
         {showErrorMessage && inputErrorMessage && inputErrorMessage.trim()!=='' && <small className="text-red-400">{inputErrorMessage}</small>}
     </div>
   )

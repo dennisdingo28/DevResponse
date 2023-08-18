@@ -33,7 +33,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({imageUrl,setImageUrl}) => {
                       <small className="text-gray-500">upload profile image</small>
                     </div>
                 )}
-                  
               </div>
             )
           }}

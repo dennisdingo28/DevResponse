@@ -11,13 +11,14 @@ import {AxiosError} from "axios";
 import { toast } from "react-hot-toast";
 import Button from "@/components/ui/Button";
 import ImageUpload from "./ImageUpload";
-
+import {AiOutlineEyeInvisible, AiOutlineEye} from "react-icons/ai";
 
 const RegisterForm = () => {
 
     const [showErrors,setShowErrors] = useState<boolean>(false);
     
     const [imageUrl,setImageUrl] = useState<string>("");
+    const [showPassword,setShowPassword] = useState<boolean>(false);
 
     const {register,handleSubmit,formState:{errors}} = useForm({
         resolver:zodResolver(RegisterValidator),
@@ -65,7 +66,10 @@ const RegisterForm = () => {
         <div className="space-y-2">
             <FormInput register={register} showErrorMessage={showErrors} inputErrorMessage={errors.username?.message} registerName="username" placeholderLabel="@username" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
             <FormInput register={register} showErrorMessage={showErrors} inputErrorMessage={errors.email?.message} registerName="email" placeholderLabel="@email" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
-            <FormInput register={register} showErrorMessage={showErrors} inputErrorMessage={errors.password?.message} registerName="password" placeholderLabel="@password" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
+            <div className="flex items-center bg-darkBlue rounded-md pr-2">
+                <FormInput inputType={showPassword ? "text":"password"} register={register} showErrorMessage={showErrors} inputErrorMessage={errors.password?.message} registerName="password" placeholderLabel="@password" className="w-full outline-none bg-transparent p-2  text-blackGray font-medium"/>
+                {!showPassword ? <AiOutlineEyeInvisible onClick={()=>setShowPassword(true)} className="text-[1.7em] cursor-pointer duration-150 p-1 rounded-full hover:bg-slate-700"/>:<AiOutlineEye className="text-[1.7em] cursor-pointer duration-150 p-1 rounded-full hover:bg-slate-700" onClick={()=>setShowPassword(false)}/>}
+            </div>
         </div>
         <div className="flex justify-center items-center mt-2">
             <Button isLoading={isLoading} disabled={isLoading} className="bg-lightBlue text-white font-bold p-2 font-roboto rounded-md hover:bg-blue-700 duration-200 flex items-center gap-1">Register Account</Button>
