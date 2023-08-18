@@ -56,29 +56,53 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks:{
-        async signIn({user}){
-            throw new Error("id")           
-            return true;            
+        async signIn({user,account,profile}){
+            const usernameAlreadyExists = await prismadb.user.findUnique({
+                where:{
+                    username:user.name!,
+                    NOT:{
+                        provider:account?.provider,
+                    }
+                },
+            });
+            if(usernameAlreadyExists){
+                throw new Error(`Username ${user.name} is already taken!`);
+            }
+            const emailAreadyExists = await prismadb.user.findUnique({
+                where:{
+                    email:user.email!,
+                    NOT:{
+                        provider:account?.provider,
+                    }
+                },
+            });
+            if(emailAreadyExists){
+                throw new Error(`Email ${user.email} is already taken!`);
+            }
+            
+            return true;
         },
         async jwt({token,account,profile}){
-            console.log("got here");
-            
             if(token){
-                const userAlreadyExists = await prismadb.user.findUnique({where:{
-                    username:token.name!,
-                    email:token.email!,
-                }});
-                
+                const userAlreadyExists = await prismadb.user.findUnique({
+                    where:{
+                        username:token.name!,
+                        email:token.email!,
+                        provider:account?.provider,
+                    }
+                });
                 if(!userAlreadyExists){
                     const newUser = await prismadb.user.create({
                         data:{
                             username:token.name!,
                             email:token.email!,
                             image:token.picture!,
+                            provider:account?.provider,
                         }
                     })
                     token.id=newUser.id;
                 }
+                    
             }
             return token;
         },

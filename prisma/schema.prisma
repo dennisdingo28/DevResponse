@@ -16,4 +16,5 @@ model User {
   email    String  @unique
   image    String  @default("/defaultProfile.png")
   password String?
+  provider String?
 }

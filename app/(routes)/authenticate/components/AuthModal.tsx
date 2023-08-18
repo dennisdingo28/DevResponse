@@ -2,12 +2,13 @@
 import { Dialog } from '@headlessui/react'
 import LoginProviders from './LoginProviders'
 import AuthTabs from './AuthTabs'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 
 const AuthModal = () => {
 
+  const router = useRouter();
   const [errorMsg,setErrorMsg] = useState<string>();
   const searchParams = useSearchParams();
 
@@ -17,13 +18,17 @@ const AuthModal = () => {
   //   if(errorMessage && errorMessage.trim()!=='')
   //     setErrorMsg(errorMessage)
   // },[errorMessage])
-
   useEffect(()=>{
     if(errorMessage && errorMessage.trim()!=='')
       setErrorMsg(errorMessage);
-    if(errorMsg && errorMsg.trim()!=='')
+  },[errorMessage])
+  useEffect(()=>{
+    
+    if(errorMsg && errorMsg.trim()!==''){
+      router.push("/authenticate");
       toast.error(errorMsg)
-  },[errorMsg,errorMessage]);
+    }
+  },[errorMsg]);
 
   return (
     <Dialog open={true} onClose={()=>{}} className={"relative z-50"}>
