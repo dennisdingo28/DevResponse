@@ -9,7 +9,7 @@ const LoginProviders = () => {
     <div>
         <div className="flex items-center justify-center gap-6">
             <ButtonIcon onClick={()=>signIn("google")} label="Google" icon={<FaGoogle/>} className="flex flex-row-reverse items-center gap-1 bg-slate-600 rounded-lg p-3 hover:bg-slate-700 duration-150"/>
-            <ButtonIcon label="Github" icon={<FaGithub/>} className="flex flex-row-reverse items-center gap-1 bg-slate-600 rounded-lg p-3 hover:bg-slate-700 duration-150"/>
+            <ButtonIcon onClick={()=>signIn("github")} label="Github" icon={<FaGithub/>} className="flex flex-row-reverse items-center gap-1 bg-slate-600 rounded-lg p-3 hover:bg-slate-700 duration-150"/>
         </div>
     </div>
   )

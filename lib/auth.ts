@@ -1,6 +1,7 @@
 import { NextAuthOptions, getServerSession } from "next-auth";
 import ValidString from "./utils/ValidString";
 import GoogleProvider from "next-auth/providers/google";
+import GithubProvider from "next-auth/providers/github";
 import prismadb from "./db";
 import generateJWT from "./generateJWT";
 
@@ -14,7 +15,7 @@ function getGoogleCredentials(){
     }
     if(!GOOGLE_CLIENTSECRET || !ValidString(GOOGLE_CLIENTSECRET)){
         throw new Error("No google client secret was provided. Please try again later !");
-    }
+    }   
 
     return {
         GOOGLE_CLIENTID,
@@ -22,17 +23,42 @@ function getGoogleCredentials(){
     };
 }
 
+function getGithubCredentials(){
+    const GITHUB_CLIENTID = process.env.GITHUB_CLIENTID;
+    const GITHUB_CLIENTSECRET = process.env.GITHUB_CLIENTSECRET;
+
+    if(!GITHUB_CLIENTID! || !ValidString(GITHUB_CLIENTID)){
+        throw new Error("No github client id was provided. Please try again later !");
+    }
+    if(!GITHUB_CLIENTSECRET || !ValidString(GITHUB_CLIENTSECRET)){
+        throw new Error("No github client secret was provided. Please try again later !");
+    }
+
+    return {
+        GITHUB_CLIENTID,
+        GITHUB_CLIENTSECRET,
+    };
+}
+
 export const authOptions: NextAuthOptions = {
     pages:{
+        error:"/authenticate",
         signIn:"/authenticate",
     },
     providers:[
         GoogleProvider({
             clientId:getGoogleCredentials().GOOGLE_CLIENTID,
             clientSecret:getGoogleCredentials().GOOGLE_CLIENTSECRET,
-        })
+        }),
+        GithubProvider({
+            clientId:getGithubCredentials().GITHUB_CLIENTID,
+            clientSecret:getGithubCredentials().GITHUB_CLIENTSECRET,
+        }),
     ],
     callbacks:{
+        async signIn(){
+            throw new Error("idk")
+        },
         async jwt({token,account,profile}){
             if(token){
                 const userAlreadyExists = await prismadb.user.findUnique({where:{
