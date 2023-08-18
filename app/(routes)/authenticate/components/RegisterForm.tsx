@@ -75,7 +75,6 @@ const RegisterForm = () => {
                         {!showPassword ? <AiOutlineEyeInvisible onClick={()=>setShowPassword(true)} className="text-[1.7em] cursor-pointer duration-150 p-1 rounded-full hover:bg-slate-700"/>:<AiOutlineEye className="text-[1.7em] cursor-pointer duration-150 bg-darkBlue p-1 rounded-full hover:bg-slate-700" onClick={()=>setShowPassword(false)}/>}
                     </div>
                 </div>
-                
             </div>
         </div>
         <div className="flex justify-center items-center mt-2">

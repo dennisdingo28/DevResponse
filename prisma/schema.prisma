@@ -8,9 +8,9 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  username String @unique
-  email    String @unique
-  image    String @default("/defaultProfile.png")
+  id       String  @id @default(uuid())
+  email    String  @unique
+  image    String  @default("/defaultProfile.png")
   password String?
+  username String  @unique
 }
