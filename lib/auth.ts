@@ -129,7 +129,7 @@ export const authOptions: NextAuthOptions = {
                             provider:account?.provider,
                         },
                     });
-                    if(!currentUser && account?.provider!=='credentials'){
+                    if(!currentUser){
                         const newUser = await prismadb.user.create({
                             data:{
                                 name:token.name!,

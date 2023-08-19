@@ -57,7 +57,7 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit((data)=>signInAccount(data))}>
         <div className="space-y-2">
             <FormInput inputType="text" register={register} showErrorMessage={showErrors} inputErrorMessage={errors.email?.message} registerName="email" placeholderLabel="@email" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
-            <FormInput inputType="password" register={register} showErrorMessage={showErrors} inputErrorMessage={errors.password?.message} registerName="password" placeholderLabel="@password" className="bg-darkBlue w-full outline-none p-2 rounded-md text-blackGray font-medium"/>
+            <FormInput inputType={"password"} register={register} showErrorMessage={showErrors} inputErrorMessage={errors.password?.message} registerName="password" placeholderLabel="@password" className="w-full rounded-l-md -p-2 outline-none bg-darkBlue p-2 text-blackGray font-medium"/>
         </div>
         <div className="flex justify-center items-center mt-2">
             <Button isLoading={isLoading} disabled={isLoading} className="bg-lightBlue text-white font-bold p-2 font-roboto rounded-md hover:bg-blue-700 duration-200 flex items-center gap-1">Sign In</Button>
