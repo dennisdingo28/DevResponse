@@ -32,7 +32,6 @@ const LoginForm = () => {
             return res;
         },
         onSuccess:(data: any)=>{
-            console.log("login",data);
             if(data.error && data.error.trim()!=='')
                 toast.success(data.error);
             else

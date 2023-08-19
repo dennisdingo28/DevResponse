@@ -1,20 +1,16 @@
 import { getAuthSession } from '@/lib/auth'
-import Logo from './Logo'
+import Logo from '../ui/Logo'
 import Navigation from './Navigation'
-import Container from './ui/Container'
+import Container from '../ui/Container'
 
-const Navbar = async () => {
-  const session = await getAuthSession();
-  console.log(session);
+const Navbar = () => {
   
   return (
     <div>
         <Container>
             <div className="flex items-center justify-between">
                 <Logo/>
-                <div className="">
-                  <Navigation/>
-                </div>
+                <Navigation/>
             </div>
         </Container>
     </div>

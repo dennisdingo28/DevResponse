@@ -36,7 +36,6 @@ const RegisterForm = () => {
             toast.success(data.msg || "Account was successfully created !");
         },
         onError:(err: any)=>{
-            console.log(err);
             
             if(err instanceof AxiosError)
                 toast.error(err.response?.data || err.message)

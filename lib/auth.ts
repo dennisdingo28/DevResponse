@@ -76,7 +76,6 @@ export const authOptions: NextAuthOptions = {
                     const userAttempt = await prismadb.user.findUnique({where:{
                         email:credentials?.email,
                     }});
-                    console.log("cred",userAttempt);
                     
                     if(!userAttempt){
                         throw new Error(`Cannot find any users with email ${credentials?.email}`);
@@ -139,6 +138,8 @@ export const authOptions: NextAuthOptions = {
                             }
                         })
                         token.id=newUser.id;
+                    }else{
+                        token.id=currentUser.id;
                     }
                 }
             return token;

@@ -1,10 +1,10 @@
 "use client"
 
 import { Dispatch, SetStateAction } from "react";
-import Logo from "./Logo";
+import Logo from "../ui/Logo";
 import { navbarLinks } from "@/constants";
-import NavLink from "./ui/NavLink";
-import Container from "./ui/Container";
+import NavLink from "../ui/NavLink";
+import Container from "../ui/Container";
 
 interface MobileNavbarLinksProps{
     open: boolean;
