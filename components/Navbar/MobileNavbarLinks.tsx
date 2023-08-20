@@ -14,8 +14,8 @@ interface MobileNavbarLinksProps{
 const MobileNavbarLinks: React.FC<MobileNavbarLinksProps> = ({open,setOpen}) => {
     if(open){
         return(
-            <div className="absolute z-20 top-0 bottom-0 left-0 right-0 bg-softDarkBlue text-white">
-                <Container className="absolute z-20 top-0 bottom-0 left-0 right-0">
+            <div className="fixed z-20 overflow-hidden top-0 bottom-0 left-0 right-0 bg-softDarkBlue text-white">
+                <Container className="fixed z-20 top-0 overflow-hidden bottom-0 left-0 right-0">
                     <div className="flex items-center justify-between">
                         <div className="">
                             <Logo/>

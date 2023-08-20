@@ -7,7 +7,6 @@ import ResolvedBugs from "./ResolvedBugs"
 
 const StatisticsDashboard = () => {
   return (
-    <Container>
         <div className="mt-4">
             <div className="my-3">
                 <Announce message="We are one of the latest and modern platforms for development and tech related stuff." title="How to use? Here is a short overview about how you can use our platform for a faster bug fix, easy and efortless">
@@ -27,15 +26,14 @@ const StatisticsDashboard = () => {
                 </Announce>
             </div>
             <div className="flex flex-col items-center justify-center xs:flex-row xs:justify-between lg:justify-around">
-                <div className="bg-[#080815] p-3 rounded-md">
+                <div className="bg-blackBlue p-3 rounded-md">
                     <BugRequests/>
                 </div>
-                <div className="bg-[#080815] p-3 rounded-md">
+                <div className="bg-blackBlue p-3 rounded-md">
                     <ResolvedBugs/>
                 </div>
             </div>
         </div>
-    </Container>
   )
 }
 

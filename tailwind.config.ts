@@ -13,6 +13,7 @@ const config: Config = {
         "lightBlue":"#3e77ff",
         "darkishBlue":"#2d66ef",
         "softDarkBlue":"#14173b",
+        "blackBlue":"#080815",
         "darkGray":"#f4f5f5",
         "blackGray":"#e0e0e0"
       },
@@ -28,10 +29,10 @@ const config: Config = {
 
       'md': '768px',
       // => @media (min-width: 768px) { ... }
-
+      'l':"868px",
       'lg': '1024px',
       // => @media (min-width: 1024px) { ... }
-
+      'xlg':"1124px",
       'xl': '1280px',
       // => @media (min-width: 1280px) { ... }
 
