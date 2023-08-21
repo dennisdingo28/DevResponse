@@ -9,7 +9,6 @@ export async function POST(req: Request){
     try{
         const payload = await req.json();
         const accountData:RegistrationPayload = payload.account;
-        console.log(payload);
         
         //validating incoming object payload
         RegisterValidator.parse(accountData);
@@ -51,5 +50,6 @@ export async function POST(req: Request){
         }
         if(err instanceof ZodError)
             return new NextResponse(err.issues[0].message,{status:400});
+        return new NextResponse("Something went wrong. Please try again later!",{status:500});
     }
 }

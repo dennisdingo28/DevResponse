@@ -1,7 +1,6 @@
 import React from "react";
-import Container from "../ui/Container";
 import ActiveBugs from "./ActiveBugs";
-import Bugs from "./Bugs";
+import BugsContainer from "./BugsContainer";
 import Header from "./Header";
 
 const Main = () => {
@@ -15,7 +14,7 @@ const Main = () => {
                 <Header />
             </div>
             <div className="">
-                <Bugs />
+                <BugsContainer />
             </div>
         </div>
         

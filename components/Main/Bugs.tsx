@@ -1,27 +1,31 @@
-"use client"
-
-import { initializeSocket, useSocketStore } from "@/hooks/useSocket";
+"use client";
+import { Bug } from "@prisma/client";
+import { useSocketStore, initializeSocket } from "@/hooks/useSocket";
 import { useEffect } from "react";
 
-const Bugs = () => {
+interface BugsProps {
+  bugs: Array<Bug>;
+}
+const Bugs: React.FC<BugsProps> = ({ bugs }) => {
   const socket = useSocketStore((state) => state.socket);
 
-   useEffect(() => {
-    if (socket == null) return
+  useEffect(() => {
+    if (!socket) initializeSocket();
+  }, []);
 
-    const cleanup = initializeSocket();
+  useEffect(() => {
+    if (!socket) return;
 
-    socket.emit('new_bug',"bug post")
+    socket.emit("new_bug", "msg bas");
+  }, [socket]);
 
-    return () => {
-      cleanup();
-    };
-  }, [socket])
-
-  
   return (
-    <div>Bugs</div>
-  )
-}
+    <div>
+      {bugs.map((bug) => (
+        <p key={bug.id}>{bug.title}</p>
+      ))}
+    </div>
+  );
+};
 
-export default Bugs
+export default Bugs;

@@ -1,7 +1,9 @@
+import { getAuthSession } from '@/lib/auth'
 import Logo from '../ui/Logo'
 import Navigation from './Navigation'
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await getAuthSession();
   
   return (
     <div>
