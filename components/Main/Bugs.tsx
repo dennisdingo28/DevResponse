@@ -16,7 +16,6 @@ const Bugs: React.FC<BugsProps> = ({ bugs }) => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.emit("new_bug", "msg bas");
   }, [socket]);
 
   return (
