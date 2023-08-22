@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <QueryProvider>
-          <body className="min-h-screen bg-darkBlue">
+          <body className="min-h-screen bg-darkBlue pb-20">
             <ToasterProvider />
             <div className="h-screen bg-darkBlue">
               <Container>
