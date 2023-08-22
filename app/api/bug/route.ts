@@ -9,6 +9,8 @@ export async function POST(req: Request){
     try{
         const payload:BugRequest = await req.json();
         const authorizationToken = req.headers.get("authorization")?.split(" ")[1] || "";
+
+        //verfies the provided auth token
         AuthorizationToken(authorizationToken);
 
         BugValidator.parse(payload);
