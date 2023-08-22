@@ -16,7 +16,7 @@ const Bugs: React.FC<BugsProps> = ({ bugs }) => {
 
     socket.on("new_bug_client",(msg,id,createdAt)=>{
       console.log("daraa",msg,id);
-      setAllBugs(prev=>[{id,title:msg,createdAt},...prev]);
+      // setAllBugs(prev=>[{id,title:msg,createdAt},...prev]);
     })
 
 

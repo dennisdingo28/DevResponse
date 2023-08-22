@@ -14,11 +14,13 @@ model User {
   name     String  @unique
   password String?
   provider String  @default("credentials")
+  bugs     Bug[]
 }
-
 
 model Bug {
   id String @id @default(uuid())
   title String
   createdAt DateTime @default(now())
+  userId String
+  user User @relation(fields: [userId],references: [id])
 }
