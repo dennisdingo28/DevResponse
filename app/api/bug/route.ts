@@ -15,13 +15,13 @@ export async function POST(req: Request){
 
         BugValidator.parse(payload);
 
-        await prismadb.bug.create({
+        const newBug = await prismadb.bug.create({
             data:{
                 title:payload.title,
             }
         });
 
-        return NextResponse.json({msg:"Bug was sucessfully created"},{status:200});
+        return NextResponse.json({msg:"Bug was sucessfully created",bug:newBug},{status:200});
 
     }catch(err){
         console.log(err);

@@ -1,6 +1,6 @@
 "use client";
 import { Bug } from "@prisma/client";
-import { useSocketStore, initializeSocket } from "@/hooks/useSocket";
+import { useSocketStore } from "@/hooks/useSocket";
 import { useEffect, useState } from "react";
 
 interface BugsProps {
@@ -10,17 +10,16 @@ const Bugs: React.FC<BugsProps> = ({ bugs }) => {
   const [allBugs,setAllBugs] = useState(bugs);
   const socket = useSocketStore((state) => state.socket);
 
-  useEffect(() => {
-    if (!socket) initializeSocket();
-  }, []);
 
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("new_bug_client",msg=>{
-      console.log("daraa",msg);
-      setAllBugs([{id:"dingo",title:msg},...allBugs]);
+    socket.on("new_bug_client",(msg,id,createdAt)=>{
+      console.log("daraa",msg,id);
+      setAllBugs(prev=>[{id,title:msg,createdAt},...prev]);
     })
+
+
   }, [socket]);
 
   return (

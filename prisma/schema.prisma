@@ -20,4 +20,5 @@ model User {
 model Bug {
   id String @id @default(uuid())
   title String
+  createdAt DateTime @default(now())
 }
