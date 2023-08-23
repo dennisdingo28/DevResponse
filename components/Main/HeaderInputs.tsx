@@ -20,6 +20,9 @@ const HeaderInputs = () => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [tags,setTags] = useState<Array<Tag>>([]);
   const [code,setCode] = useState<string>("");
+  const [language,setLanguage] = useState<string>("plaintext");
+  console.log(language);
+  
 
   async function createBug() {
     try {
@@ -97,7 +100,7 @@ const HeaderInputs = () => {
         </div>
         <div className="absolute right-1 top-1">
           <div className="flex items-center gap-5">
-            <HeaderCode code={code} setCode={setCode}/>
+            <HeaderCode language={language} setLanguage={setLanguage} setCode={setCode} code={code}/>
             <HeaderImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
           </div>
         </div>
