@@ -2,16 +2,15 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Dispatch, SetStateAction , Fragment, useState} from 'react';
 import Button from '../ui/Button';
-import { Tag } from '@/types';
 
-interface AddTagProps{
+interface AttachCodeProps{
     isOpen: boolean;
     onClose: Dispatch<SetStateAction<boolean>>;
-    tags: Array<Tag>;
-    setTags: Dispatch<SetStateAction<Array<Tag>>>;
+    code: String;
+    setCode: Dispatch<SetStateAction<string>>;
 }
 
-const AddTagModal: React.FC<AddTagProps> = ({isOpen,onClose,setTags,tags}) => {
+const AttachCodeModal: React.FC<AttachCodeProps> = ({isOpen,onClose,code,setCode}) => {
   const [newTag,setNewTag] = useState<string>("");
   return (
     <Transition show={isOpen}>
@@ -38,14 +37,7 @@ const AddTagModal: React.FC<AddTagProps> = ({isOpen,onClose,setTags,tags}) => {
                 <Dialog open={isOpen} onClose={onClose} className={"relative z-50"}>
                     <div className="fixed inset-0 flex items-center justify-center p-4">
                         <Dialog.Panel className={"text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2"}>
-                            <Dialog.Title className={"font-bold text-center text-[1.2em]"}>Adding to know !</Dialog.Title>
-                            <input value={newTag} onChange={(e)=>setNewTag(e.target.value)} className='bg-darkBlue outline-none p-1 px-2 rounded-full w-full placeholder:text-[.9em]' placeholder='new tag'/>
-                            <div className="flex items-center justify-center">
-                                <Button disabled={tags.length==3} onClick={()=>{
-                                  setTags(prev=>[...prev,{tag:newTag}])
-                                  setNewTag("");
-                                  }} className='bg-lightBlue font-roboto font-bold p-1 mt-1 rounded-lg hover:bg-[#2661ed] duration-150'>Add</Button>
-                            </div>
+                            <Dialog.Title className={"font-bold text-center text-[1.2em]"}>Put your code here</Dialog.Title>
                         </Dialog.Panel>
                     </div>
                 </Dialog>
@@ -54,4 +46,4 @@ const AddTagModal: React.FC<AddTagProps> = ({isOpen,onClose,setTags,tags}) => {
   )
 }
 
-export default AddTagModal
+export default AttachCodeModal

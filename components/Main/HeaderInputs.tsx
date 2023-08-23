@@ -7,9 +7,10 @@ import axios from "axios";
 import { useState } from "react";
 import HeaderImage from "./HeaderImage";
 import Image from "next/image";
-import HeaderCode from "./HeaderCode";
 import Button from "../ui/Button";
 import HeaderTag from "./HeaderTag";
+import { Tag } from "@/types";
+import HeaderCode from "./HeaderCode";
 
 const HeaderInputs = () => {
   const socket = useSocketStore((state) => state.socket);
@@ -17,6 +18,8 @@ const HeaderInputs = () => {
   const [bugTitle, setBugTitle] = useState<string>("");
   const [bugDescription, setBugDescription] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [tags,setTags] = useState<Array<Tag>>([]);
+  const [code,setCode] = useState<string>("");
 
   async function createBug() {
     try {
@@ -79,12 +82,22 @@ const HeaderInputs = () => {
             </div>
           )}
           <div className="flex items-center justify-between mt-3">
-            <HeaderTag/>
+            <div className="">
+              <HeaderTag tags={tags} setTags={setTags}/>
+              <div className="flex items-center gap-2">
+                {tags.map((tag)=>{
+                  if(tag.tag.charAt(0)=="#")
+                    return <p className="text-[.85em]">{tag.tag}</p>
+                  return <p className="text-[.85em]">#{tag.tag}</p>
+                })}
+              </div>
+            </div>
             <Button className="bg-softDarkBlue hover:bg-[#111437] duration-200 text-gray-300 text-[.95em] font-poppins rounded-md p-2">Create Bug</Button>
           </div>
         </div>
         <div className="absolute right-1 top-1">
-          <div className="">
+          <div className="flex items-center gap-5">
+            <HeaderCode code={code} setCode={setCode}/>
             <HeaderImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
           </div>
         </div>

@@ -1,13 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import AddTagModal from "./AddTagModal";
+import { Tag } from "@/types";
 
-const HeaderTag = () => {
+interface HeaderTagProps{
+  tags: Array<Tag>;
+  setTags: Dispatch<SetStateAction<Array<Tag>>>;
+}
+
+const HeaderTag: React.FC<HeaderTagProps> = ({tags,setTags}) => {
     const [isOpen,setIsOpen] = useState<boolean>(false);
   return (
     <div>
-        <AddTagModal isOpen={isOpen} onClose={()=>setIsOpen(false)}/>
+        <AddTagModal isOpen={isOpen} onClose={()=>setIsOpen(false)} tags={tags} setTags={setTags}/>
         <small onClick={()=>setIsOpen(true)} className="text-lightBlue font-bold cursor-pointer hover:text-[#2661ed] duration-150">
             # Add Tag
         </small>
