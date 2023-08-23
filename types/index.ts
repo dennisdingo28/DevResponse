@@ -9,6 +9,9 @@ export interface RegistrationPayload extends RegisterRequest{
     image?:string;
 }
 
-export interface Tag {
-    tag: string;
+export interface AuthTokenPayload {
+    id: string;
+    username: string;
+    email: string;
+    image: string;
 }

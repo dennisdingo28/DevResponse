@@ -146,7 +146,7 @@ export const authOptions: NextAuthOptions = {
         },
         async session({token,session}){
             
-            const jwt = generateJWT({username:token.name,email:token.email,image:token.picture});
+            const jwt = generateJWT({id:token.id,username:token.name,email:token.email,image:token.picture});
 
             if(session && session.user){
                 session.user.token = jwt;

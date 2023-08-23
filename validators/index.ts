@@ -18,5 +18,10 @@ export type LoginRequest = z.infer<typeof LoginValidator>;
 
 export const BugValidator = z.object({
     title:z.string({required_error:"A bug title is required"}).min(1,"Title must be at least 1 character long !"),
+    description:z.optional(z.string().min(1,"Description must be at least 1 character long !")),
+    imageUrl:z.optional(z.string()),
+    tags: z.array(z.string().min(1,"Tag must be at least 1 character long !")),
+    code: z.optional(z.string().min(1,"The code must be at least 1 character long !")),
+    language: z.optional(z.string()),
 });
 export type BugRequest = z.infer<typeof BugValidator>;

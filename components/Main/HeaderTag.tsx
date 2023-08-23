@@ -2,11 +2,10 @@
 
 import { Dispatch, SetStateAction, useState } from "react"
 import AddTagModal from "./AddTagModal";
-import { Tag } from "@/types";
 
 interface HeaderTagProps{
-  tags: Array<Tag>;
-  setTags: Dispatch<SetStateAction<Array<Tag>>>;
+  tags: Array<string>;
+  setTags: Dispatch<SetStateAction<Array<string>>>;
 }
 
 const HeaderTag: React.FC<HeaderTagProps> = ({tags,setTags}) => {

@@ -1,7 +1,6 @@
 "use client";
 import { MdOutlineTitle } from "react-icons/md";
 import { LuSubtitles } from "react-icons/lu";
-import { FaCode } from "react-icons/fa";
 import useSocketStore from "@/hooks/useSocket";
 import axios from "axios";
 import { useState } from "react";
@@ -9,29 +8,46 @@ import HeaderImage from "./HeaderImage";
 import Image from "next/image";
 import Button from "../ui/Button";
 import HeaderTag from "./HeaderTag";
-import { Tag } from "@/types";
 import HeaderCode from "./HeaderCode";
+import { User } from "next-auth";
+import { BugRequest } from "@/validators";
 
-const HeaderInputs = () => {
+interface HeaderInputsProps{
+  user: User;
+}
+
+const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
   const socket = useSocketStore((state) => state.socket);
 
   const [bugTitle, setBugTitle] = useState<string>("");
   const [bugDescription, setBugDescription] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [tags,setTags] = useState<Array<Tag>>([]);
+  const [tags,setTags] = useState<Array<string>>([]);
   const [code,setCode] = useState<string>("");
   const [language,setLanguage] = useState<string>("plaintext");
-  console.log(language);
   
 
   async function createBug() {
+    let bugProps: BugRequest = {
+      title:bugTitle,
+      tags
+    };
+    if(bugDescription && bugDescription.trim()!=='')
+      bugProps.description=bugDescription;
+    if(imageUrl && imageUrl.trim()!=='')
+      bugProps.imageUrl = imageUrl;
+    if(code && code.trim()!=='')
+    {
+      bugProps.code=code;
+      bugProps.language=language;
+    }
     try {
       const res = await axios.post(
         "/api/bug",
-        { title: bugTitle },
+        bugProps,
         {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbm5pc2RpbmdvMjgiLCJlbWFpbCI6ImRlbm5pc21vbGRvdmFuMzJAZ21haWwuY29tIiwiaW1hZ2UiOiJodHRwczovL2F2YXRhcnMuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3UvMTEyMDE1OTQ2P3Y9NCIsImlhdCI6MTY5MjY0NDAwOSwiZXhwIjoxNjk1MjM2MDA5fQ.Wp6PVnjlVke6YklfO5GJxeoZVSGW5hsX-R_R9v5bYhY`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
@@ -39,9 +55,15 @@ const HeaderInputs = () => {
       if (socket) {
         socket.emit(
           "new_bug",
-          bugTitle,
-          res.data.bug.id,
-          res.data.bug.createdAt
+          {
+            title:bugTitle,
+            description:bugDescription,
+            imageUrl,
+            tags,
+            code,
+            language
+          }
+          
         );
       }
     } catch (err) {
@@ -85,17 +107,17 @@ const HeaderInputs = () => {
             </div>
           )}
           <div className="flex items-center justify-between mt-3">
-            <div className="">
+            <div className="pl-1">
               <HeaderTag tags={tags} setTags={setTags}/>
               <div className="flex items-center gap-2">
-                {tags.map((tag)=>{
-                  if(tag.tag.charAt(0)=="#")
-                    return <p className="text-[.85em]">{tag.tag}</p>
-                  return <p className="text-[.85em]">#{tag.tag}</p>
+                {tags && tags.length>0 && tags.map((tag)=>{
+                  if(tag.charAt(0)=="#")
+                    return <p className="text-[.85em]">{tag}</p>
+                  return <p className="text-[.85em]">#{tag}</p>
                 })}
               </div>
             </div>
-            <Button className="bg-softDarkBlue hover:bg-[#111437] duration-200 text-gray-300 text-[.95em] font-poppins rounded-md p-2">Create Bug</Button>
+            <Button disabled={!bugTitle || bugTitle.trim()===''} onClick={createBug} className="bg-softDarkBlue hover:bg-[#111437] duration-200 text-gray-300 text-[.95em] font-poppins rounded-md p-2">Create Bug</Button>
           </div>
         </div>
         <div className="absolute right-1 top-1">

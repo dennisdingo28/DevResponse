@@ -11,12 +11,23 @@ const Main = () => {
         <div className="bg-blackBlue rounded-lg pb-2">
             <ActiveBugs/>
         </div>
-        <div className="">
-            <div className="">
-                <Header />
-            </div>
-            <div className="">
-                <BugsContainer />
+        <div className="bg-blackBlue">
+            <div className="flex">
+                <div className="flex-1">
+                    <h3>Links will be written here</h3>
+                </div>
+                <div className="flex-[2]">
+                    <div className="">
+                        <Header />
+                    </div>
+                    <div className="">
+                        <BugsContainer />
+                    </div>
+                </div>
+                
+                <div className="flex-1 flex justify-end">
+                    groups & chat will be here
+                </div>
             </div>
         </div>
         

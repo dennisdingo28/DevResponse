@@ -11,13 +11,14 @@ export async function POST(req: Request){
         const authorizationToken = req.headers.get("authorization")?.split(" ")[1] || "";
 
         //verfies the provided auth token
-        AuthorizationToken(authorizationToken);
+        const user = AuthorizationToken(authorizationToken);
 
         BugValidator.parse(payload);
 
         const newBug = await prismadb.bug.create({
             data:{
-                title:payload.title,
+                ...payload,
+                userId:user.id,
             }
         });
 

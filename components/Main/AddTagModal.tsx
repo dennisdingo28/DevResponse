@@ -2,13 +2,12 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Dispatch, SetStateAction , Fragment, useState} from 'react';
 import Button from '../ui/Button';
-import { Tag } from '@/types';
 
 interface AddTagProps{
     isOpen: boolean;
     onClose: Dispatch<SetStateAction<boolean>>;
-    tags: Array<Tag>;
-    setTags: Dispatch<SetStateAction<Array<Tag>>>;
+    tags: Array<String>;
+    setTags: Dispatch<SetStateAction<Array<string>>>;
 }
 
 const AddTagModal: React.FC<AddTagProps> = ({isOpen,onClose,setTags,tags}) => {
@@ -42,7 +41,7 @@ const AddTagModal: React.FC<AddTagProps> = ({isOpen,onClose,setTags,tags}) => {
                             <input value={newTag} onChange={(e)=>setNewTag(e.target.value)} className='bg-darkBlue outline-none p-1 px-2 rounded-full w-full placeholder:text-[.9em]' placeholder='new tag'/>
                             <div className="flex items-center justify-center">
                                 <Button disabled={tags.length==3} onClick={()=>{
-                                  setTags(prev=>[...prev,{tag:newTag}])
+                                  setTags(prev=>[...prev,newTag])
                                   setNewTag("");
                                   }} className='bg-lightBlue font-roboto font-bold p-1 mt-1 rounded-lg hover:bg-[#2661ed] duration-150'>Add</Button>
                             </div>

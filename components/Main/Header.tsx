@@ -1,7 +1,5 @@
-
 import { getAuthSession } from "@/lib/auth"
-import HeaderControl from "./HeaderControl"
-
+import HeaderInputs from "./HeaderInputs";
 
 
 const Header = async () => {
@@ -9,7 +7,8 @@ const Header = async () => {
 
   return (
     <div>
-      <HeaderControl user={session?.user!}/>
+      <HeaderInputs user={session?.user!}/>
+
     </div>
   )
 }

@@ -9,6 +9,9 @@ const BugsContainer = async () => {
     orderBy:{
       createdAt:"desc"
     },
+    include:{
+      user:true,
+    },
   });
   
   

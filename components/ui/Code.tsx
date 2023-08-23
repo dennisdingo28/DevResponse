@@ -12,7 +12,6 @@ interface CodeProps{
 const Code: React.FC<CodeProps>= ({setCodeText,code,language}) => {
     const router = useRouter();
     const [editorValue, setEditorValue] = useState<string>('');
-    console.log("ediotr",language);
     
     const handleEditorChange = (value: string | undefined) => {
         if (value) {
@@ -34,8 +33,7 @@ const Code: React.FC<CodeProps>= ({setCodeText,code,language}) => {
         options={{
             autoIndent:'full',
             minimap:{enabled:false},
-        }}
-        
+          }}
     />
   )
 }
