@@ -16,7 +16,6 @@ const Bugs: React.FC<BugsProps> = ({ bugs }) => {
     if (!socket) return;
 
     socket.on("new_bug_client",(bug)=>{
-      console.log("daraa",bug);
       setAllBugs(prev=>[bug,...prev]);
     })
 
@@ -26,7 +25,7 @@ const Bugs: React.FC<BugsProps> = ({ bugs }) => {
   return (
     <div>
       {allBugs.map((bug) => (
-        <Bug bug={bug}/>
+        <Bug key={bug.id} bug={bug}/>
       ))}
     </div>
   );

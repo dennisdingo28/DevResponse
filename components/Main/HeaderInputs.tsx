@@ -2,7 +2,6 @@
 import { MdOutlineTitle } from "react-icons/md";
 import { LuSubtitles } from "react-icons/lu";
 import useSocketStore from "@/hooks/useSocket";
-import axios from "axios";
 import { useState } from "react";
 import HeaderImage from "./HeaderImage";
 import Image from "next/image";
@@ -11,6 +10,11 @@ import HeaderTag from "./HeaderTag";
 import HeaderCode from "./HeaderCode";
 import { User } from "next-auth";
 import { BugRequest } from "@/validators";
+import { useMutation } from "@tanstack/react-query";
+import createBug from "@/lib/api/createBug";
+import { Bug } from "@prisma/client";
+import { toast } from "react-hot-toast";
+import { AxiosError } from "axios";
 
 interface HeaderInputsProps{
   user: User;
@@ -26,50 +30,56 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
   const [code,setCode] = useState<string>("");
   const [language,setLanguage] = useState<string>("plaintext");
   
+  const {mutate: createNewBug,isLoading} = useMutation({
+    mutationFn: async()=>{
+      let bugProps: BugRequest = {
+        title:bugTitle,
+        tags
+      };
+      if(bugDescription && bugDescription.trim()!=='')
+        bugProps.description=bugDescription;
+      if(imageUrl && imageUrl.trim()!=='')
+        bugProps.imageUrl = imageUrl;
+      if(code && code.trim()!=='')
+      {
+        bugProps.code=code;
+        bugProps.language=language;
+      }
 
-  async function createBug() {
-    let bugProps: BugRequest = {
-      title:bugTitle,
-      tags
-    };
-    if(bugDescription && bugDescription.trim()!=='')
-      bugProps.description=bugDescription;
-    if(imageUrl && imageUrl.trim()!=='')
-      bugProps.imageUrl = imageUrl;
-    if(code && code.trim()!=='')
-    {
-      bugProps.code=code;
-      bugProps.language=language;
-    }
-    try {
-      const res = await axios.post(
-        "/api/bug",
-        bugProps,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-
+      const res = await createBug(bugProps,user.token);
+      return res.data.bug;
+    },
+    onSuccess:(newBug: Bug)=>{
+      
       if (socket) {
         socket.emit(
           "new_bug",
           {
+            id:newBug.id,
             title:bugTitle,
             description:bugDescription,
             imageUrl,
             tags,
             code,
-            language
+            language,
+            userId:user.id,
+            user:user,
           }
-          
         );
       }
-    } catch (err) {
-      console.log("create bug error: ", err);
+
+      toast.success("Bug was successfully created !")
+    },
+    onError:(err)=>{
+      console.log(err);
+      if(err instanceof AxiosError)
+        toast.error(err.response?.data || err.message);
+      else
+        toast.error("Something went wrong. Please try again later !");
     }
-  }
+  });
+  
+   
   return (
     <div className="relative">
       <div className="flex flex-col md:flex-row gap-2">
@@ -117,7 +127,7 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
                 })}
               </div>
             </div>
-            <Button disabled={!bugTitle || bugTitle.trim()===''} onClick={createBug} className="bg-softDarkBlue hover:bg-[#111437] duration-200 text-gray-300 text-[.95em] font-poppins rounded-md p-2">Create Bug</Button>
+            <Button isLoading={isLoading} disabled={!bugTitle || bugTitle.trim()==='' || isLoading} onClick={()=>createNewBug()} className="bg-softDarkBlue hover:bg-[#111437] duration-200 text-gray-300 text-[.95em] font-poppins rounded-md p-2 flex items-center gap-1">Create Bug</Button>
           </div>
         </div>
         <div className="absolute right-1 top-1">
@@ -127,7 +137,6 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
           </div>
         </div>
       </div>
-    
     </div>
   );
 };
