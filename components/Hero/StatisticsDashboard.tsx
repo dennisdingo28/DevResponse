@@ -1,8 +1,7 @@
 import Announce from "../ui/Announce"
-import Container from "../ui/Container"
 import KeyFeature from "../ui/KeyFeature"
-import Logo from "../ui/Logo"
-import BugRequests from "./BugRequests"
+import BugRequestsContainer from "./BugRequestsContainer"
+import BugRequests from "./BugRequestsContainer"
 import ResolvedBugs from "./ResolvedBugs"
 
 const StatisticsDashboard = () => {
@@ -27,7 +26,7 @@ const StatisticsDashboard = () => {
             </div>
             <div className="flex flex-col items-center justify-center xs:flex-row xs:justify-between lg:justify-around">
                 <div className="bg-blackBlue p-3 rounded-md">
-                    <BugRequests/>
+                    <BugRequestsContainer/>
                 </div>
                 <div className="bg-blackBlue p-3 rounded-md">
                     <ResolvedBugs/>
