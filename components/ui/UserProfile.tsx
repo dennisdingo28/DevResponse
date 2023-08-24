@@ -6,7 +6,8 @@ interface UserProfileProps{
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({image,username}) => {
-  return (
+  
+    return (
     <div className="">
         <div className="flex flex-col items-center justify-center xs:flex-row cursor-pointer gap-1">
             <div className="">

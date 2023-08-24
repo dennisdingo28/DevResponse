@@ -11,6 +11,9 @@ const Bugs: React.FC<BugsProps> = ({ bugs }) => {
   const [allBugs,setAllBugs] = useState(bugs);
   const socket = useSocketStore((state) => state.socket);
 
+  useEffect(()=>{
+    setAllBugs(bugs);
+  },[bugs]);
 
   useEffect(() => {
     if (!socket) return;
@@ -19,13 +22,12 @@ const Bugs: React.FC<BugsProps> = ({ bugs }) => {
       setAllBugs(prev=>[bug,...prev]);
     })
 
-
   }, [socket]);
 
   return (
-    <div>
-      {allBugs.map((bug) => (
-        <Bug key={bug.id} bug={bug}/>
+    <div className="flex flex-col">
+      {allBugs.map((bug,index) => (
+          <Bug key={bug.id} bug={bug} index={index}/>
       ))}
     </div>
   );

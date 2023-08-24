@@ -55,17 +55,17 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
         socket.emit(
           "new_bug",
           {
-            id:newBug.id,
-            title:bugTitle,
-            description:bugDescription,
-            imageUrl,
-            tags,
-            code,
-            language,
+            ...newBug,
             userId:user.id,
             user:user,
           }
         );
+        socket.emit("new_bug_amount",{
+          ...newBug,
+          userId:user.id,
+          user:user,
+        })
+        
       }
 
       toast.success("Bug was successfully created !")
@@ -116,8 +116,8 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
               />
             </div>
           )}
-          <div className="flex items-center justify-between mt-3">
-            <div className="pl-1">
+          <div className="flex items-center justify-between mt-3 px-1">
+            <div className="">
               <HeaderTag tags={tags} setTags={setTags}/>
               <div className="flex items-center gap-2">
                 {tags && tags.length>0 && tags.map((tag)=>{
