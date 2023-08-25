@@ -5,14 +5,14 @@ interface BugCommentProps{
     icon: React.ReactNode;
     comments: number;
 }
-
+//#1cd68a
 const BugComment: React.FC<BugCommentProps> = ({icon,comments}) => {
   return (
     <div className="flex items-center group">
-        <div className="text-[#1cd68a]">
+        <div className="text-gray-500">
             {icon}
         </div>
-        <p className="group-hover:text-[#1cd68a] duration-150 text-[.95em]">{comments}</p>
+        <p className="text-gray-600 duration-150 text-[.81em]">{comments}</p>
     </div>
   )
 }
