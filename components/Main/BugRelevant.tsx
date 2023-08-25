@@ -51,7 +51,7 @@ const BugRelevant: React.FC<BugRelevantProps> = ({ icon, bug , user }) => {
           setLiked(false);
         }
     }} className="flex items-center gap-1 group hover:bg-[rgba(29,183,107,.1)] p-1 rounded-full">
-      <div className={`text-gray-500 group-hover:text-[rgb(29,183,107)] ${liked && "text-[rgb(29,183,107)]"}`}>
+      <div className={`group-hover:text-[rgb(29,183,107)] ${!liked ? "text-gray-500":"text-[rgb(29,183,107)]"}`}>
         {icon}
       </div>
       <p className={`group-hover:text-darkGray duration-75 text-[.81em] ${!liked ? "text-gray-600":"text-darkGray font-bold"}`}>
