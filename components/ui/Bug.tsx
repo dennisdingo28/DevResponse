@@ -1,20 +1,22 @@
 "use client";
-import { Bug, User } from "@prisma/client";
+import { Bug, User as UserDB } from "@prisma/client";
 import Image from "next/image";
 import UserProfile from "./UserProfile";
 import formatElapsedTime from "@/lib/utils/formatTime";
 import { useEffect, useState } from "react";
 import SeeCode from "../Main/SeeCode";
 import BugInteractions from "../Main/BugInteractions";
+import { User } from "next-auth";
 
 interface BugProps {
   bug: Bug & {
-    user: User;
+    user: UserDB;
   };
+  user: User,
   index: number;
 }
 
-const Bug: React.FC<BugProps> = ({ bug, index }) => {
+const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
   const [elapsedTimeString, setElapsedTimeString] = useState<string>("");
 
   useEffect(() => {
@@ -22,15 +24,15 @@ const Bug: React.FC<BugProps> = ({ bug, index }) => {
   }, [bug.createdAt]);
 
   return (
-    <div className="hover:bg-darkBlue px-2 py-3 cursor-pointer duration-150 flex">
+    <div className="hover:bg-darkBlue px-2 py-3 cursor-pointer duration-150 flex gap-1">
       <div className="">
-        <UserProfile image={bug.user.image} />
+        <Image width={43} height={43} src={bug.user.image} className="w-[43px] h-[43px] rounded-full" priority quality={100} alt="user profile"/>
       </div>
-      <div className="">
+      <div className="flex-1">
         <div className="">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <UserProfile username={bug.user.name} />
+              <p className="font-thin text-darkGray">{bug.user.name}</p>
               <p className="text-sm text-slate-500">{elapsedTimeString}</p>
             </div>
             <div>
@@ -56,7 +58,7 @@ const Bug: React.FC<BugProps> = ({ bug, index }) => {
           </div>
         )}
         <div className="">
-          <BugInteractions />
+          <BugInteractions bug={bug} user={user}/>
         </div>
       </div>
     </div>

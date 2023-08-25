@@ -23,6 +23,7 @@ model Bug {
   description String?
   imageUrl    String?
   tags        String[]
+  relevant    String[]
   code        String?
   language    String?
   createdAt   DateTime @default(now())

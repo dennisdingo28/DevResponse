@@ -3,10 +3,9 @@ import Image from "next/image";
 interface UserProfileProps{
     image?: string;
     username?: string;
-    showDefaultImage?: boolean
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({image,username,showDefaultImage}) => {
+const UserProfile: React.FC<UserProfileProps> = ({image,username}) => {
   
     return (
     <div className="">

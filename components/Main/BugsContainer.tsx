@@ -1,10 +1,10 @@
 
-
-
 import prismadb from "@/lib/db"
 import Bugs from "./Bugs";
+import { getAuthSession } from "@/lib/auth";
 
 const BugsContainer = async () => {
+  const session = await getAuthSession();
   const bugs = await prismadb.bug.findMany({
     orderBy:{
       createdAt:"desc"
@@ -17,7 +17,7 @@ const BugsContainer = async () => {
   
   return (
     <div>
-      <Bugs bugs={bugs}/>
+      <Bugs bugs={bugs} user={session?.user!}/>
     </div>
   )
 }
