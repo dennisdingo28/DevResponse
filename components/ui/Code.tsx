@@ -7,9 +7,10 @@ interface CodeProps{
     setCodeText: Dispatch<SetStateAction<string>>;
     language: string;
     code:string
+    isReadOnly?: boolean;
 }
 
-const Code: React.FC<CodeProps>= ({setCodeText,code,language}) => {
+const Code: React.FC<CodeProps>= ({setCodeText,code,language,isReadOnly}) => {
     const router = useRouter();
     const [editorValue, setEditorValue] = useState<string>('');
     
@@ -31,6 +32,7 @@ const Code: React.FC<CodeProps>= ({setCodeText,code,language}) => {
         theme='vs-dark'
         onChange={handleEditorChange}
         options={{
+            readOnly:isReadOnly===null || isReadOnly===undefined ? false:true,
             autoIndent:'full',
             minimap:{enabled:false},
           }}

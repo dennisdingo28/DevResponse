@@ -4,7 +4,8 @@ import Image from "next/image";
 import UserProfile from "./UserProfile";
 import formatElapsedTime from "@/lib/utils/formatTime";
 import { useEffect, useState } from "react";
-import HeaderCode from "../Main/HeaderCode";
+import SeeCode from "../Main/SeeCode";
+import BugInteractions from "../Main/BugInteractions";
 
 interface BugProps{
     bug: Bug & {
@@ -31,7 +32,7 @@ const Bug: React.FC<BugProps> = ({bug,index}) => {
             <p className="text-sm text-slate-500">{elapsedTimeString}</p>
           </div>
           <div>
-            see code
+            <SeeCode code={bug.code} language={bug.language}/>
           </div>
         </div>
           <h3 className="text-[1.35em] text-darkGray font-medium">{bug.title}</h3>
@@ -50,7 +51,9 @@ const Bug: React.FC<BugProps> = ({bug,index}) => {
               />
             </div>
         )}
-      <div className=""></div>
+      <div className="">
+        <BugInteractions/>
+      </div>
     </div>
   )
 }
