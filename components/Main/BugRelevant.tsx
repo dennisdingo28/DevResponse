@@ -16,7 +16,7 @@ interface BugRelevantProps {
 }
 
 const BugRelevant: React.FC<BugRelevantProps> = ({ icon, bug , user }) => {
-
+  
   const [relevantArr,setRelevantArr] = useState(bug.relevant);
   const [liked,setLiked] = useState(relevantArr.some(id=>id===user.id));
 

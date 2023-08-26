@@ -34,6 +34,11 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
             <div className="flex items-center gap-2">
               <p className="font-thin text-darkGray">{bug.user.name}</p>
               <p className="text-sm text-slate-500">{elapsedTimeString}</p>
+              <div className="flex items-center text-slate-600 text-sm gap-1">
+                {bug.tags.map(tag=>(
+                  <p className="hover:underline">#{tag}</p>
+                ))}
+              </div>
             </div>
             <div>
               <SeeCode code={bug.code} language={bug.language} />
