@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import markRelevant from "@/lib/api/markRelevant";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import useSocketStore from "@/hooks/useSocket";
 
 interface BugRelevantProps {
   bug: Bug & {
@@ -17,21 +18,28 @@ interface BugRelevantProps {
 
 const BugRelevant: React.FC<BugRelevantProps> = ({ icon, bug , user }) => {
   
-  const [relevantArr,setRelevantArr] = useState(bug.relevant);
-  const [liked,setLiked] = useState(relevantArr.some(id=>id===user.id));
+  const [liked,setLiked] = useState(bug.relevant.some(id=>id===user.id));
+  const socket = useSocketStore(state=>state.socket);
 
   useEffect(()=>{
-    const userAlreadyLiked = relevantArr.some(id=>id===user.id);
+    const userAlreadyLiked = bug.relevant.some(userId=>userId===user.id);
     setLiked(userAlreadyLiked);
-  },[relevantArr,bug.relevant])
+    markAsRelevant();
+  },[bug.relevant]);  
 
   useEffect(()=>{
-    markAsRelevant();
-  },[relevantArr,bug.relevant,liked]);
+    if(socket){
+      if(liked)
+        socket.emit("new_bug_relevant",{userId:user.id,bugId:bug.id})
+      else{
+        socket.emit("new_bug_unrelevant",{userId:user.id,bugId:bug.id})
+      }  
+    }
+  },[liked]);
 
   const {mutate: markAsRelevant} = useMutation({
     mutationFn: async()=>{
-      await markRelevant(bug.id,relevantArr);
+      await markRelevant(bug.id,bug.relevant);
     },
     onError:()=>{
       toast.error("Something went wrong. Please try again later !");
@@ -40,22 +48,13 @@ const BugRelevant: React.FC<BugRelevantProps> = ({ icon, bug , user }) => {
   
   return (
     <div onClick={()=>{
-        if(!liked){
-          setRelevantArr(prev=>[...prev,user.id]);
-          setLiked(true);
-        }
-        else{
-          setRelevantArr(prev=>{
-            return prev.filter(id=>id!==user.id);
-          });
-          setLiked(false);
-        }
+        setLiked(!liked);
     }} className="flex items-center gap-1 group hover:bg-[rgba(29,183,107,.1)] p-1 rounded-full">
       <div className={`group-hover:text-[rgb(29,183,107)] ${!liked ? "text-gray-500":"text-[rgb(29,183,107)]"}`}>
         {icon}
       </div>
       <p className={`group-hover:text-darkGray duration-75 text-[.81em] ${!liked ? "text-gray-600":"text-darkGray font-bold"}`}>
-        {relevantArr.length}
+        {bug.relevant.length}
       </p>
     </div>
   );

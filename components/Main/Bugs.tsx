@@ -22,8 +22,40 @@ const Bugs: React.FC<BugsProps> = ({ bugs,user }) => {
 
     socket.on("new_bug_client",(bug)=>{
       setAllBugs(prev=>[bug,...prev]);
-    })
-
+    });
+    socket.on("new_bug_relevant_client",payload=>{
+      console.log("nbrc",payload);
+      
+      setAllBugs(prev=>{
+        return prev.map(bug=>{
+          if(bug.id===payload.bugId){
+            const userAlreadyLiked = bug.relevant.some(userId=>userId===payload.userId);
+            if(!userAlreadyLiked)
+              return {
+                ...bug,
+                relevant:[...bug.relevant,payload.userId],
+              }
+            return bug;
+          }
+          return bug;
+        })
+      })
+    });
+    socket.on("new_bug_unrelevant_client",payload=>{
+      console.log("nbuc",payload);
+      
+      setAllBugs(prev=>{
+        return prev.map(bug=>{
+          if(bug.id===payload.bugId){
+            return {
+              ...bug,
+              relevant:bug.relevant.filter(userId=>userId!==bug.userId) || [],
+            }
+          }
+          return bug;
+        });
+      })
+    });
   }, [socket]);
 
   return (
