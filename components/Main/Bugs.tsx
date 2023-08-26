@@ -24,7 +24,6 @@ const Bugs: React.FC<BugsProps> = ({ bugs,user }) => {
       setAllBugs(prev=>[bug,...prev]);
     });
     socket.on("new_bug_relevant_client",payload=>{
-      console.log("nbrc",payload);
       
       setAllBugs(prev=>{
         return prev.map(bug=>{
@@ -42,14 +41,13 @@ const Bugs: React.FC<BugsProps> = ({ bugs,user }) => {
       })
     });
     socket.on("new_bug_unrelevant_client",payload=>{
-      console.log("nbuc",payload);
       
       setAllBugs(prev=>{
         return prev.map(bug=>{
           if(bug.id===payload.bugId){
             return {
               ...bug,
-              relevant:bug.relevant.filter(userId=>userId!==bug.userId) || [],
+              relevant:bug.relevant.filter(userId=>userId!==payload.userId),
             }
           }
           return bug;
