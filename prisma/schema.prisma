@@ -34,11 +34,10 @@ model Bug {
 }
 
 model Comment {
+  id String @id @default(uuid())
   bugId String
   bug Bug @relation(fields: [bugId],references: [id])
   commentText String
   userId String
   user User @relation(fields: [userId],references: [id])
-
-  @@id([bugId, userId])
 }
