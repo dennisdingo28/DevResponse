@@ -15,6 +15,7 @@ model User {
   password String?
   provider String  @default("credentials")
   bugs     Bug[]
+  comments Comment[]
 }
 
 model Bug {
@@ -24,9 +25,20 @@ model Bug {
   imageUrl    String?
   tags        String[]
   relevant    String[]
+  comments    Comment[]
   code        String?
   language    String?
   createdAt   DateTime @default(now())
   userId      String
   user        User     @relation(fields: [userId], references: [id])
+}
+
+model Comment {
+  bugId String
+  bug Bug @relation(fields: [bugId],references: [id])
+  commentText String
+  userId String
+  user User @relation(fields: [userId],references: [id])
+
+  @@id([bugId, userId])
 }

@@ -1,7 +1,7 @@
 "use client"
 
 
-import { Bug, User as UserDB } from "@prisma/client";
+import { Bug, User as UserDB, Comment as CommentDB } from "@prisma/client";
 import BugRelevant from "./BugRelevant"
 import {BsCodeSlash} from "react-icons/bs"
 import {BsChatDots} from "react-icons/bs";
@@ -17,6 +17,9 @@ import { User } from "next-auth";
 interface BugInteractionsProps{
   bug: Bug & {
     user: UserDB;
+    comments: Array<CommentDB & {
+      user: UserDB
+  }>;
   };
   user: User;
 }
@@ -25,7 +28,7 @@ const BugInteractions:React.FC<BugInteractionsProps> = ({bug,user}) => {
   return (
     <div className="flex items-center justify-evenly">
         <BugRelevant icon={<BsCodeSlash/>} bug={bug} user={user}/>
-        <BugComment icon={<BsChatDots/>} comments={31}/>
+        <BugComment icon={<BsChatDots/>} bug={bug} user={user}/>
         <BugShare icon={<CiShare1/>} shareNumber={23}/>
         <BugStatistics icon={<TfiStatsUp/>} viewedNumber={156}/>
         <BugReport icon={<AiOutlineAlert/>}/>

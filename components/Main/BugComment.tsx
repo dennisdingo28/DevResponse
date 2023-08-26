@@ -1,18 +1,29 @@
 "use client"
-
+import { Bug, User as UserDB, Comment as CommentDB } from "@prisma/client";
+import { User } from "next-auth";
+import { useState } from "react";
+import BugCommentModal from "./BugCommentModal";
 
 interface BugCommentProps{
     icon: React.ReactNode;
-    comments: number;
+    bug: Bug & {
+      user: UserDB;
+      comments: Array<CommentDB & {
+        user: UserDB
+    }>;
+    };
+    user: User;
 }
 //#1cd68a
-const BugComment: React.FC<BugCommentProps> = ({icon,comments}) => {
+const BugComment: React.FC<BugCommentProps> = ({icon,bug,user}) => {
+  const [isOpen,setIsOpen] = useState(false);
   return (
-    <div className="flex items-center group">
-        <div className="text-gray-500">
+    <div onClick={()=>setIsOpen(true)} className="flex items-center gap-1 group hover:bg-[rgba(45,102,239,.1)] duration-75 p-1 rounded-full">
+        <BugCommentModal bug={bug} user={user} isOpen={isOpen} onClose={()=>setIsOpen(false)}/>
+        <div className={`text-gray-500 group-hover:text-darkishBlue`}>
             {icon}
         </div>
-        <p className="text-gray-600 duration-150 text-[.81em]">{comments}</p>
+        <p className={`text-gray-600 text-[.81em] group-hover:text-darkGray duration-75`}>{bug.comments.length}</p>
     </div>
   )
 }

@@ -11,6 +11,11 @@ const BugsContainer = async () => {
     },
     include:{
       user:true,
+      comments:{
+        include:{
+          user:true,
+        }
+      }
     },
   });
   
