@@ -4,13 +4,17 @@ import useSocketStore, { initializeSocket } from "@/hooks/useSocket";
 import { useEffect } from "react";
 
 
-const Socket = () => {
+interface SocketProps{
+  id: string;
+}
+
+const Socket: React.FC<SocketProps> = ({id}) => {
 
     const socket = useSocketStore((state) => state.socket);
 
   useEffect(() => {
     if (!socket){
-        const cleanup = initializeSocket();
+        const cleanup = initializeSocket(id);
         return ()=>{
             cleanup()
         }

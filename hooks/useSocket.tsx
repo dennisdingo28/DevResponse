@@ -12,8 +12,8 @@ export const useSocketStore = create<SocketStore>((set) => ({
   setSocket: (socket) => set({ socket }),
 }))
 
-export function initializeSocket(){
-  const newSocket = io('http://localhost:5000')
+export function initializeSocket(id: string){
+  const newSocket = io('http://localhost:5000',{query:{id}})
   useSocketStore.setState({ socket: newSocket })
   return ()=>{
     useSocketStore.setState({socket:null});
