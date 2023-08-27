@@ -1,7 +1,12 @@
+import { Bug, User } from '@prisma/client'
 import SideBug from '../ui/SideBug'
 import NewResponses from './NewResponses'
 
-const ActiveBugs = () => {
+interface ActiveBugsProps{
+  bugs: Array<Bug & {user: User}>;
+}
+
+const ActiveBugs: React.FC<ActiveBugsProps> = ({bugs}) => {
   return (
     <div className='lg:min-w-[250px] text-white'>
       <div className="flex flex-col sm:flex-row">
