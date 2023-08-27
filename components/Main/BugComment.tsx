@@ -14,7 +14,8 @@ interface BugCommentProps{
     };
     user: User;
 }
-//#1cd68a
+
+
 const BugComment: React.FC<BugCommentProps> = ({icon,bug,user}) => {
   const [isOpen,setIsOpen] = useState(false);
   return (

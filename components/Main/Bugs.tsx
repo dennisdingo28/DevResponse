@@ -69,6 +69,21 @@ const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
         });
       });
     });
+
+    socket.on("new_bug_comment_client",(payload)=>{
+      setAllBugs(prev=>{
+        return prev.map(bug=>{
+          if(bug.id===payload.bugId){
+            return {
+              ...bug,
+              comments:[payload,...bug.comments],
+            }
+          }
+          return bug;
+        })
+      })
+    });
+
   }, [socket]);
 
   return (

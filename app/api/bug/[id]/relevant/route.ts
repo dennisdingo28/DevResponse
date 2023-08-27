@@ -5,7 +5,7 @@ export async function POST(req: Request,{params}:{params:{id: string}}){
     try{
         const payload = await req.json();
         const bugId = params.id;
-        if(!payload || !bugId || bugId.trim()==='')
+        if(!payload || !bugId || bugId.trim()==='' || !payload.relevant)
             return new NextResponse("Invalid payload body !",{status:400})
         
         await prismadb.bug.updateMany({

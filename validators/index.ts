@@ -25,3 +25,12 @@ export const BugValidator = z.object({
     language: z.optional(z.string()),
 });
 export type BugRequest = z.infer<typeof BugValidator>;
+
+
+export const CommentValidator = z.object({
+  bugId: z.string({required_error:"You must provide a valid bug id"}),
+  userId: z.string({required_error:"You must provide an user id"}),
+  commentText: z.string({required_error:"You must provide a comment text"}).min(1,"Comment must be at least 1 character long !"), 
+  imageUrl: z.optional(z.string()),
+});
+export type CommentRequest = z.infer<typeof CommentValidator>;

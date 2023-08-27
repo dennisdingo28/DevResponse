@@ -8,6 +8,11 @@ import { User } from "next-auth";
 import HeaderImage from './HeaderImage';
 import Image from 'next/image';
 import Comment from '../ui/Comment';
+import { useMutation } from '@tanstack/react-query';
+import createComment from '@/lib/api/createComment';
+import { toast } from 'react-hot-toast';
+import {BsSendCheck} from "react-icons/bs";
+import useSocketStore from '@/hooks/useSocket';
 
 interface BugCommentProps{
     isOpen: boolean;
@@ -24,6 +29,31 @@ interface BugCommentProps{
 const BugCommentModal: React.FC<BugCommentProps> = ({isOpen,onClose,bug,user}) => {
     const [comment,setComment] = useState<string>("");
     const [imageUrl,setImageUrl] = useState<string>("");
+    const [commented,setCommented] = useState(false);
+    const socket = useSocketStore((state)=>state.socket);
+
+    const {mutate: newComment,isLoading} = useMutation({
+        mutationFn:async()=>{
+            const res = await createComment({bugId:bug.id,userId:user.id,commentText:comment,imageUrl:imageUrl});
+            return res;
+        },
+        onSuccess:(res)=>{
+            console.log("nc",res);
+            
+            if(socket && res.data.comment){
+                socket.emit("new_bug_comment",res.data.comment)
+            }
+            setCommented(true);
+            setTimeout(()=>{
+                setCommented(false);
+            },1550);
+        },
+        onError:()=>{
+            toast.error("Something went wrong. Please try again later !");
+            setCommented(false);
+        }
+    });
+
     return (
     <Transition show={isOpen}>
         <Transition.Child
@@ -48,25 +78,30 @@ const BugCommentModal: React.FC<BugCommentProps> = ({isOpen,onClose,bug,user}) =
           >
                 <Dialog open={isOpen} onClose={onClose} className={"relative z-50"}>
                     <div className="fixed inset-0 flex items-center justify-center p-4">
-                        <Dialog.Panel className={"text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2"}>
+                        <Dialog.Panel className={"text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2 max-w-[410px]"}>
                             <Dialog.Title className={"font-bold text-center text-[1.1em]"}>Share your solution with <span className='text-sm text-[.93em] text-lightBlue'>{bug.user.name}</span></Dialog.Title>
                             <textarea value={comment} onChange={(e)=>setComment(e.target.value)} rows={2} className='w-full resize-none bg-transparent border-l-2 border-l-gray-500 outline-none placeholder:text-[.89em] p-1 text-[.93em] text-gray-400' placeholder='@comment'></textarea>
                             <div className="flex items-center justify-between">
                                 <HeaderImage setImageUrl={setImageUrl} imageUrl={imageUrl}/>
-                                <Button disabled={!comment || comment.trim()===''} onClick={()=>{}} className="bg-darkBlue hover:bg-[#0f0f26] duration-200 text-gray-300 text-[.95em] font-poppins rounded-md p-2 flex items-center gap-1">Send</Button>
+                                <div className="flex items-center gap-1">
+                                    <Button isLoading={isLoading} disabled={!comment || comment.trim()==='' || isLoading} onClick={()=>newComment()} className="bg-darkBlue hover:bg-[#0f0f26] duration-200 text-gray-300 text-[.95em] font-poppins rounded-md p-2 flex items-center gap-1">Send</Button>
+                                    <BsSendCheck className={`text-lightBlue ${!commented ? "absolute opacity-0":"opacity-100"} duration-100`}/>
+                                </div>
                             </div>
                             {imageUrl && imageUrl.trim()!=='' && 
                                 <Image src={imageUrl} width={700} height={650} alt='comment upload image' className='w-full h-full object-cover max-w-[700px] max-h-[650px]' priority quality={100}/>
                             }
-                            <div className='border-t border-t-slate-500 p-1 bg-darkBlue'>
+                            <div className='p-2 bg-darkBlue rounded-lg'>
                                 <h3 className='font-roboto font-medium text-[1.1em] mb-3'>
-                                    Current replies ({bug.comments.length})
+                                    {!bug.comments || bug.comments.length<0 ? "No current comments":`Current replies (${bug.comments.length})`}
                                 </h3>
-                                <div>
-                                    {bug.comments.map((comment,index)=>(
-                                        <Comment key={index} bug={bug} user={user} comment={comment}/>
-                                    ))}
-                                </div>
+                                {bug.comments && bug.comments.length>0 &&
+                                    <div className='flex flex-col gap-5'>
+                                        {bug.comments.map((comment,index)=>(
+                                            <Comment key={index} bug={bug} user={user} comment={comment}/>
+                                        ))}
+                                    </div>
+                                }
                             </div>
                         </Dialog.Panel>
                     </div>
