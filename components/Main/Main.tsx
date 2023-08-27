@@ -1,16 +1,16 @@
 import React from "react";
-import ActiveBugs from "./ActiveBugs";
 import BugsContainer from "./BugsContainer";
 import Header from "./Header";
 import Socket from "./Socket";
 import SocketContainer from "./SocketContainer";
+import ActiveBugsContainer from "./ActiveBugsContainer";
 
 const Main = () => {
   return (
       <div className="text-white flex flex-col gap-6">
         <SocketContainer/>
         <div className="bg-blackBlue rounded-lg pb-2">
-            <ActiveBugs/>
+            <ActiveBugsContainer/>
         </div>
         <div className="bg-blackBlue">
             <div className="flex">

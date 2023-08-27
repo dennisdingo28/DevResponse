@@ -24,7 +24,7 @@ const BugComment: React.FC<BugCommentProps> = ({icon,bug,user}) => {
         <div className={`text-gray-500 group-hover:text-darkishBlue`}>
             {icon}
         </div>
-        <p className={`text-gray-600 text-[.81em] group-hover:text-darkGray duration-75`}>{bug.comments.length || 0}</p>
+        <p className={`text-gray-600 text-[.81em] group-hover:text-darkGray duration-75`}>{bug.comments?.length || 0}</p>
     </div>
   )
 }

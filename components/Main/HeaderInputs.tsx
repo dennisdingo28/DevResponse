@@ -64,8 +64,12 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
           ...newBug,
           userId:user.id,
           user:user,
-        })
-        
+        });
+        socket.emit("new_bug_request",{ 
+          ...newBug,
+          userId:user.id,
+          user:user,
+        });
       }
 
       toast.success("Bug was successfully created !")

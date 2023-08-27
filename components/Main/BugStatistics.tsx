@@ -1,9 +1,8 @@
 "use client"
 
-
 interface BugStatisticsProps{
-    icon: React.ReactNode;
-    viewedNumber: number;
+  icon: React.ReactNode;
+  viewedNumber: number;
 }
 
 const BugStatistics: React.FC<BugStatisticsProps> = ({icon,viewedNumber}) => {

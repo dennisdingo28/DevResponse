@@ -12,6 +12,9 @@ const ActiveBugsContainer = async () => {
         include:{
             user:true,
         },
+        orderBy:{
+            createdAt:"desc",
+        },
     });
   return (
     <div>

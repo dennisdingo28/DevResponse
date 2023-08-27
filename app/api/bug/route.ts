@@ -12,9 +12,7 @@ export async function POST(req: Request){
         
         //verfies the provided auth token
         const user = AuthorizationToken(authorizationToken);
-
         BugValidator.parse(payload);
-
         const newBug = await prismadb.bug.create({
             data:{
                 ...payload,
