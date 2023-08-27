@@ -10,7 +10,7 @@ interface ActiveBugsProps{
 }
 
 const ActiveBugs: React.FC<ActiveBugsProps> = ({bugs}) => {
-  const [allBugs,setAllBugs] = useState(bugs);
+  const [allBugs,setAllBugs] = useState(bugs || []);
   const socket = useSocketStore(state=>state.socket);
 
   useEffect(()=>{

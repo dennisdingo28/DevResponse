@@ -76,7 +76,7 @@ const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
           if(bug.id===payload.bugId){
             return {
               ...bug,
-              comments:[payload,...bug.comments],
+              comments:[payload,...bug?.comments],
             }
           }
           return bug;
