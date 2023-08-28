@@ -2,6 +2,7 @@
 import {
   Bug as BugDB,
   Comment as CommentDB,
+  Share,
   User as UserDB,
 } from "@prisma/client";
 import { useSocketStore } from "@/hooks/useSocket";
@@ -13,6 +14,7 @@ interface BugsProps {
   bugs: Array<
     BugDB & {
       user: UserDB;
+      shares: Array<Share & {user: UserDB}>;
       comments: Array<
         CommentDB & {
           user: UserDB;

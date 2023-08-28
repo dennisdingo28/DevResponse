@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
-  image    String  @default("/defaultProfile.png")
-  name     String  @unique
+  id       String    @id @default(uuid())
+  email    String    @unique
+  image    String    @default("/defaultProfile.png")
+  name     String    @unique
   password String?
-  provider String  @default("credentials")
+  provider String    @default("credentials")
   bugs     Bug[]
+  shares   Share[]
   comments Comment[]
 }
 
 model Bug {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String?
   imageUrl    String?
@@ -28,18 +29,28 @@ model Bug {
   comments    Comment[]
   code        String?
   language    String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  shares      Share[]
+}
+
+model Share {
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  bugId  String
+  bug    Bug    @relation(fields: [bugId], references: [id])
+
+  @@id([userId, bugId])
 }
 
 model Comment {
-  id String @id @default(uuid())
-  bugId String
-  bug Bug @relation(fields: [bugId],references: [id])
+  id          String   @id @default(uuid())
+  bugId       String
+  bug         Bug      @relation(fields: [bugId], references: [id])
   commentText String
-  imageUrl String?
-  userId String
-  user User @relation(fields: [userId],references: [id])
-  createdAt DateTime @default(now())
+  imageUrl    String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
 }

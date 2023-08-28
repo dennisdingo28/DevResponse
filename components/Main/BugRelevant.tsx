@@ -1,6 +1,6 @@
 "use client";
 
-import { Bug, User as UserDB } from "@prisma/client";
+import { Bug, User as UserDB, Share } from "@prisma/client";
 import { User } from "next-auth";
 import { useMutation } from "@tanstack/react-query";
 import markRelevant from "@/lib/api/markRelevant";
@@ -11,6 +11,7 @@ import useSocketStore from "@/hooks/useSocket";
 interface BugRelevantProps {
   bug: Bug & {
     user: UserDB;
+    shares: Array<Share & {user: UserDB}>;
   };
   user: User;
   icon: React.ReactNode;

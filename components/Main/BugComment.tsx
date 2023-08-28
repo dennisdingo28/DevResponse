@@ -1,5 +1,5 @@
 "use client"
-import { Bug, User as UserDB, Comment as CommentDB } from "@prisma/client";
+import { Bug, User as UserDB, Comment as CommentDB,Share } from "@prisma/client";
 import { User } from "next-auth";
 import { useState } from "react";
 import BugCommentModal from "./BugCommentModal";
@@ -8,6 +8,7 @@ interface BugCommentProps{
     icon: React.ReactNode;
     bug: Bug & {
       user: UserDB;
+      shares: Array<Share & {user: UserDB}>;
       comments: Array<CommentDB & {
         user: UserDB
     }>;

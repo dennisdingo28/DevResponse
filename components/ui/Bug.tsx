@@ -1,5 +1,5 @@
 "use client";
-import { Bug, Comment as CommentDB, User as UserDB } from "@prisma/client";
+import { Bug, Comment as CommentDB, Share, User as UserDB } from "@prisma/client";
 import Image from "next/image";
 import UserProfile from "./UserProfile";
 import formatElapsedTime from "@/lib/utils/formatTime";
@@ -11,6 +11,7 @@ import { User } from "next-auth";
 interface BugProps {
   bug: Bug & {
     user: UserDB;
+    shares: Array<Share & {user: UserDB}>;
     comments: Array<CommentDB & {
       user: UserDB
     }>;
