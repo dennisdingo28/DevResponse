@@ -35,7 +35,7 @@ const ActiveBugs: React.FC<ActiveBugsProps> = ({bugs}) => {
             </div>
             <div className="flex flex-col gap-[4px]">
               {allBugs.map((bug,index,arr)=>(
-                <SideBug title={bug.title} status="requested" index={arr.length-index}/>
+                <SideBug key={index} title={bug.title} status="requested" index={arr.length-index}/>
               ))}
             </div>
         </div>

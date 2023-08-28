@@ -13,6 +13,7 @@ import createComment from '@/lib/api/createComment';
 import { toast } from 'react-hot-toast';
 import {BsSendCheck} from "react-icons/bs";
 import useSocketStore from '@/hooks/useSocket';
+import ImagePreviewModal from '../ui/ImagePreviewModal';
 
 interface BugCommentProps{
     isOpen: boolean;
@@ -30,6 +31,8 @@ const BugCommentModal: React.FC<BugCommentProps> = ({isOpen,onClose,bug,user}) =
     const [comment,setComment] = useState<string>("");
     const [imageUrl,setImageUrl] = useState<string>("");
     const [commented,setCommented] = useState(false);
+    const [imagePreviewModal,setImagePreviewModal] = useState(false);
+
     const socket = useSocketStore((state)=>state.socket);
 
     const {mutate: newComment,isLoading} = useMutation({
@@ -82,15 +85,22 @@ const BugCommentModal: React.FC<BugCommentProps> = ({isOpen,onClose,bug,user}) =
                             <Dialog.Title className={"font-bold text-center text-[1.1em]"}>Share your solution with <span className='text-sm text-[.93em] text-lightBlue'>{bug.user.name}</span></Dialog.Title>
                             <textarea value={comment} onChange={(e)=>setComment(e.target.value)} rows={2} className='w-full resize-none bg-transparent border-l-2 border-l-gray-500 outline-none placeholder:text-[.89em] p-1 text-[.93em] text-gray-400' placeholder='@comment'></textarea>
                             <div className="flex items-center justify-between">
-                                <HeaderImage setImageUrl={setImageUrl} imageUrl={imageUrl}/>
+                                {imageUrl && imageUrl.trim()!=='' ? 
+                                    <div className="">
+                                        <ImagePreviewModal imageUrl={imageUrl} isOpen={imagePreviewModal} onClose={()=>setImagePreviewModal(false)}/>
+                                        <p onClick={()=>setImagePreviewModal(true)} className='text-lightBlue hover:text-[#2661ed] duration-150 text-sm cursor-pointer'>see image</p>
+                                    </div>
+                                    :
+                                    <HeaderImage setImageUrl={setImageUrl} imageUrl={imageUrl}/>
+                                }
                                 <div className="flex items-center gap-1">
                                     <Button isLoading={isLoading} disabled={!comment || comment.trim()==='' || isLoading} onClick={()=>newComment()} className="bg-darkBlue hover:bg-[#0f0f26] duration-200 text-gray-300 text-[.95em] font-poppins rounded-md p-2 flex items-center gap-1">Send</Button>
                                     <BsSendCheck className={`text-lightBlue ${!commented ? "absolute opacity-0":"opacity-100"} duration-100`}/>
                                 </div>
                             </div>
-                            {imageUrl && imageUrl.trim()!=='' && 
+                            {/* {imageUrl && imageUrl.trim()!=='' && 
                                 <Image src={imageUrl} width={700} height={650} alt='comment upload image' className='w-full h-full object-cover max-w-[700px] max-h-[650px]' priority quality={100}/>
-                            }
+                            } */}
                             <div className='p-2 bg-darkBlue rounded-lg'>
                                 <h3 className='font-roboto font-medium text-[1.1em] mb-3'>
                                     {!bug.comments || bug.comments.length<0 ? "No current comments":`Current replies (${bug.comments.length})`}

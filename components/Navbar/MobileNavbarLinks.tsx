@@ -22,8 +22,8 @@ const MobileNavbarLinks: React.FC<MobileNavbarLinksProps> = ({open,setOpen}) => 
                         </div>
                     </div>
                     <div className="h-full flex flex-col items-center justify-center gap-5">
-                        {navbarLinks.map(link=>(
-                            <NavLink navLink={link} className="text-[1.2em]"/>
+                        {navbarLinks.map((link,index)=>(
+                            <NavLink key={index} navLink={link} className="text-[1.2em]"/>
                         ))}
                     </div>
                 </Container>
