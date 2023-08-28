@@ -106,7 +106,7 @@ const BugCommentModal: React.FC<BugCommentProps> = ({isOpen,onClose,bug,user}) =
                                     {!bug.comments || bug.comments.length<0 ? "No current comments":`Current replies (${bug.comments.length})`}
                                 </h3>
                                 {bug.comments && bug.comments.length>0 &&
-                                    <div className='flex flex-col gap-5'>
+                                    <div className='flex flex-col gap-5 max-h-[315px] overflow-y-scroll overflowContainer'>
                                         {bug.comments.map((comment,index)=>(
                                             <Comment key={index} bug={bug} user={user} comment={comment}/>
                                         ))}

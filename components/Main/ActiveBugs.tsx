@@ -33,7 +33,7 @@ const ActiveBugs: React.FC<ActiveBugsProps> = ({bugs}) => {
             <div className="text-center">
               <h3 className='font-bold text-[1.2em] text-center'>Your Active Bugs ({bugs.length})</h3>
             </div>
-            <div className="flex flex-col gap-[4px]">
+            <div className="flex flex-col gap-[4px] max-h-[315px] overflow-y-scroll overflowContainer">
               {allBugs.map((bug,index,arr)=>(
                 <SideBug key={index} title={bug.title} status="requested" index={arr.length-index}/>
               ))}
