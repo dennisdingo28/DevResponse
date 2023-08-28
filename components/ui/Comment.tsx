@@ -3,6 +3,8 @@ import { Bug, Comment as CommentDB, User as UserDB } from "@prisma/client";
 import { User } from "next-auth";
 import UserProfile from "./UserProfile";
 import formatElapsedTime from "@/lib/utils/formatTime";
+import { useState } from "react";
+import ImagePreviewModal from "./ImagePreviewModal";
 
 interface CommentProps{
     bug: Bug & {
@@ -15,6 +17,8 @@ interface CommentProps{
 }
 const Comment: React.FC<CommentProps> = ({bug,user,comment}) => {
     const formatTime = formatElapsedTime(comment.createdAt);
+    const [imagePreviewModal,setImagePreviewModal] = useState(false);
+
     return (
     <div>
         <div className="flex flex-col items-start justify-center">
@@ -27,7 +31,10 @@ const Comment: React.FC<CommentProps> = ({bug,user,comment}) => {
             </div>
             <div className="w-full flex justify-center items-center">
                 {comment.imageUrl && comment.imageUrl.trim()!=='' && 
-                    <p className="text-sm text-center font-bold text-darkishBlue cursor-pointer">see photo</p>
+                    <div className="">
+                        <ImagePreviewModal isOpen={imagePreviewModal} imageUrl={comment.imageUrl} onClose={()=>setImagePreviewModal(false)}/>
+                        <p onClick={()=>setImagePreviewModal(true)} className="text-sm text-center font-bold text-darkishBlue cursor-pointer">see photo</p>
+                    </div>
                 }
             </div>
         </div>
