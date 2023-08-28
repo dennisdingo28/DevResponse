@@ -98,9 +98,7 @@ const BugCommentModal: React.FC<BugCommentProps> = ({isOpen,onClose,bug,user}) =
                                     <BsSendCheck className={`text-lightBlue ${!commented ? "absolute opacity-0":"opacity-100"} duration-100`}/>
                                 </div>
                             </div>
-                            {/* {imageUrl && imageUrl.trim()!=='' && 
-                                <Image src={imageUrl} width={700} height={650} alt='comment upload image' className='w-full h-full object-cover max-w-[700px] max-h-[650px]' priority quality={100}/>
-                            } */}
+                           
                             <div className='p-2 bg-darkBlue rounded-lg'>
                                 <h3 className='font-roboto font-medium text-[1.1em] mb-3'>
                                     {!bug.comments || bug.comments.length<0 ? "No current comments":`Current replies (${bug.comments.length})`}

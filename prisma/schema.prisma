@@ -33,6 +33,7 @@ model Bug {
   userId      String
   user        User      @relation(fields: [userId], references: [id])
   shares      Share[]
+  isShared    Boolean @default(false)
 }
 
 model Share {

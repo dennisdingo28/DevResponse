@@ -1,6 +1,5 @@
 import * as z from "zod";
 
-
 export const RegisterValidator = z.object({
     name:z.string({required_error:"Username is required"}).min(2,"Username must be at least 2 characters long !"),
     email:z.string({required_error:"Email is required"}).email("You must provide a valid email !"),
@@ -34,3 +33,8 @@ export const CommentValidator = z.object({
   imageUrl: z.optional(z.string()),
 });
 export type CommentRequest = z.infer<typeof CommentValidator>;
+
+export const ShareValidator = z.object({
+    bugId: z.string({required_error:"You must provide a valid bug id"}),
+    userId: z.string({required_error:"You must provide an user id"}),
+});

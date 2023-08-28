@@ -30,7 +30,9 @@ const BugInteractions:React.FC<BugInteractionsProps> = ({bug,user}) => {
     <div className="flex items-center justify-evenly">
         <BugRelevant icon={<BsCodeSlash/>} bug={bug} user={user}/>
         <BugComment icon={<BsChatDots/>} bug={bug} user={user}/>
-        <BugShare icon={<CiShare1/>} bug={bug} user={user}/>
+        {bug.userId!==user.id && 
+          <BugShare icon={<CiShare1/>} bug={bug} user={user}/>
+        }
         <BugStatistics icon={<TfiStatsUp/>} viewedNumber={156}/>
         <BugReport icon={<AiOutlineAlert/>}/>
     </div>

@@ -20,8 +20,6 @@ export async function POST(req: Request,{params}:{params:{id: string}}){
         return NextResponse.json({msg:"Marked as relevant !",ok:true},{status:200});
     
     }catch(err){
-        console.log(err);
-        
         return new NextResponse("Something went wrong. Please try again later!",{status:500})
     }
 }

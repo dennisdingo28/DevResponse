@@ -43,6 +43,9 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
                   <p key={index} className="hover:underline">#{tag}</p>
                 ))}
               </div>
+              {bug.isShared && (
+                <small className="italic text-slate-700">shared</small>
+              )}
             </div>
             <div>
               <SeeCode code={bug.code} language={bug.language} />
@@ -50,6 +53,7 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
           </div>
           <h3 className="text-[1.35em] text-darkGray font-medium">
             {bug.title}
+            
           </h3>
           <h4 className="text-gray-400 text-[1em]">{bug.description}</h4>
         </div>
