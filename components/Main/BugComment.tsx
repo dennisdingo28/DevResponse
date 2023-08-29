@@ -9,6 +9,7 @@ interface BugCommentProps{
     bug: Bug & {
       user: UserDB;
       shares: Array<Share & {user: UserDB}>;
+      sharedFrom: UserDB | null;
       comments: Array<CommentDB & {
         user: UserDB
     }>;

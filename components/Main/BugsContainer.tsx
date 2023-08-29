@@ -11,6 +11,7 @@ const BugsContainer = async () => {
     },
     include:{
       user:true,
+      sharedFrom:true,
       shares:{
         include:{
           user:true,

@@ -12,6 +12,7 @@ interface BugRelevantProps {
   bug: Bug & {
     user: UserDB;
     shares: Array<Share & {user: UserDB}>;
+    sharedFrom: UserDB | null;
   };
   user: User;
   icon: React.ReactNode;

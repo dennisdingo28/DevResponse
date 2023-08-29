@@ -16,6 +16,7 @@ model User {
   provider String    @default("credentials")
   bugs     Bug[]
   shares   Share[]
+  sharedFrom    Bug[]     @relation("SharedFrom")
   comments Comment[]
 }
 
@@ -34,8 +35,10 @@ model Bug {
   user        User      @relation(fields: [userId], references: [id])
   shares      Share[]
   isShared    Boolean @default(false)
+  sharedFromId String?
+  sharedFrom   User?     @relation("SharedFrom", fields: [sharedFromId], references: [id])
+ 
 }
-
 model Share {
   userId String
   user   User   @relation(fields: [userId], references: [id])

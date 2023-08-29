@@ -15,12 +15,14 @@ export async function POST(req: Request,{params}:{params:{id: string}}){
             throw new Error("Invalid bug payload");
 
         //new share instance
-        await prismadb.share.create({
+        const shareBug = await prismadb.share.create({
             data:{
                 bugId:payload.bugId,
                 userId:payload.userId,
             },
+
         });
+     
         const bug: Bug = payload.bug;
 
         const createSharedBug = await prismadb.bug.create({
@@ -33,9 +35,10 @@ export async function POST(req: Request,{params}:{params:{id: string}}){
                 code:bug.code,
                 language:bug.language,
                 isShared:true,
+                sharedFromId:bug.userId,
             },
         });
-        return NextResponse.json({msg:"Bug was sucessfully shared!",bug:createSharedBug},{status:200});
+        return NextResponse.json({msg:"Bug was sucessfully shared!",bug:createSharedBug,sharedBug:shareBug},{status:200});
 
     }catch(err){
         console.log(err);

@@ -15,6 +15,7 @@ interface BugProps {
     comments: Array<CommentDB & {
       user: UserDB
     }>;
+    sharedFrom: UserDB | null;
   };
   user: User,
   index: number;
@@ -26,7 +27,6 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
   useEffect(() => {
     setElapsedTimeString(formatElapsedTime(bug.createdAt));
   }, [bug.createdAt]);
-
   return (
     <div className="hover:bg-darkBlue px-2 py-3 cursor-pointer duration-150 flex gap-1">
       <div className="">
@@ -51,11 +51,25 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
               <SeeCode code={bug.code} language={bug.language} />
             </div>
           </div>
-          <h3 className="text-[1.35em] text-darkGray font-medium">
-            {bug.title}
-            
-          </h3>
-          <h4 className="text-gray-400 text-[1em]">{bug.description}</h4>
+          {bug.isShared ? (
+            <div className="pl-2 mt-2">
+              <div className="flex items-center">
+                <UserProfile image={bug.sharedFrom?.image} username={bug.sharedFrom?.name}/>
+              </div>
+              <h3 className="pl-1 text-[1.35em] text-darkGray font-medium">
+                {bug.title}
+              </h3>
+              <h4 className="text-gray-400 text-[1em]">{bug.description}</h4>
+            </div>
+          ): (
+            <div className="">
+              <h3 className="pl-1 text-[1.35em] text-darkGray font-medium">
+                {bug.title}
+              </h3>
+              <h4 className="text-gray-400 text-[1em]">{bug.description}</h4>
+            </div>
+          )}
+          
         </div>
         {bug.imageUrl && bug.imageUrl.trim() !== "" && (
           <div className="w-full flex items-center justify-center">

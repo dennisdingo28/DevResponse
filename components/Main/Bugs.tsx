@@ -14,6 +14,7 @@ interface BugsProps {
   bugs: Array<
     BugDB & {
       user: UserDB;
+      sharedFrom: UserDB | null;
       shares: Array<Share & {user: UserDB}>;
       comments: Array<
         CommentDB & {

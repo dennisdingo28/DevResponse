@@ -10,12 +10,14 @@ import { BsShare } from 'react-icons/bs';
 import { useMutation } from '@tanstack/react-query';
 import shareBug from '@/lib/api/shareBug';
 import { toast } from 'react-hot-toast';
+import { AxiosResponse } from 'axios';
 
 interface ShareBugProps{
     isOpen: boolean;
     onClose: Dispatch<SetStateAction<boolean>>;
     bug: Bug & {
       user: UserDB;
+      sharedFrom: UserDB | null;
       shares: Array<Share & {user: UserDB}>;
     };
     user: User;
@@ -23,13 +25,14 @@ interface ShareBugProps{
 
 const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,onClose,bug,user}) => {
   const [showImage,setShowImage] = useState(false);
-  
   const {mutate: share, isLoading} = useMutation({
     mutationFn: async()=>{
       const res = await shareBug(bug.id,user.id,bug,user.token);
       return res;
     },
-    onSuccess:()=>{
+    onSuccess:(res: AxiosResponse)=>{
+      console.log(res);
+      
       toast.success("Bug was successfully shared !");
     },
     onError:()=>{
