@@ -20,7 +20,7 @@ const BugShare: React.FC<BugShareProps> = ({icon,bug,user}) => {
   const [isOpen,setIsOpen] = useState(false);
 
   useEffect(()=>{
-    const userShared = bug.shares.some(share=>share.userId===user.id);
+    const userShared = bug.shares?.some(share=>share.userId===user.id) || false;
     setShared(userShared);
   },[bug]);
 

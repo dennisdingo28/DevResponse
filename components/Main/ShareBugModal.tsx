@@ -1,6 +1,6 @@
 "use client"
 import { Dialog, Transition } from '@headlessui/react'
-import { Dispatch, SetStateAction , Fragment, useState} from 'react';
+import { Dispatch, SetStateAction , Fragment, useState, useEffect} from 'react';
 import { Bug, User as UserDB, Share } from "@prisma/client";
 import { User } from "next-auth";
 import UserProfile from '../ui/UserProfile';
@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import shareBug from '@/lib/api/shareBug';
 import { toast } from 'react-hot-toast';
 import { AxiosResponse } from 'axios';
+import useSocketStore from '@/hooks/useSocket';
 
 interface ShareBugProps{
     isOpen: boolean;
@@ -25,6 +26,8 @@ interface ShareBugProps{
 
 const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,onClose,bug,user}) => {
   const [showImage,setShowImage] = useState(false);
+  const socket = useSocketStore(state=>state.socket);
+
   const {mutate: share, isLoading} = useMutation({
     mutationFn: async()=>{
       const res = await shareBug(bug.id,user.id,bug,user.token);
@@ -34,6 +37,13 @@ const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,onClose,bug,user}) => {
       console.log(res);
       
       toast.success("Bug was successfully shared !");
+      if(socket)
+      {
+        socket.emit(
+          "new_bug",
+          res.data.bug
+        );
+      }
     },
     onError:()=>{
       toast.error("Something went wrong. Please try again later !");

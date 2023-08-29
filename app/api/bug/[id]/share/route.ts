@@ -37,6 +37,12 @@ export async function POST(req: Request,{params}:{params:{id: string}}){
                 isShared:true,
                 sharedFromId:bug.userId,
             },
+            include:{
+                user:true,
+                comments:true,
+                shares:true,
+                sharedFrom:true,
+            }
         });
         return NextResponse.json({msg:"Bug was sucessfully shared!",bug:createSharedBug,sharedBug:shareBug},{status:200});
 
