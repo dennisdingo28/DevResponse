@@ -27,7 +27,7 @@ const BugShare: React.FC<BugShareProps> = ({icon,bug,user}) => {
 
   return (
     <div onClick={()=>setIsOpen(true)} className="flex items-center gap-1 group hover:bg-[rgba(156,110,240,.1)] duration-75 p-1 rounded-full">
-        <ShareBugModal isOpen={isOpen} bug={bug} user={user} onClose={()=>setIsOpen(false)}/>
+        <ShareBugModal shared={shared} isOpen={isOpen} bug={bug} user={user} onClose={()=>setIsOpen(false)}/>
         <div className={`group-hover:text-[rgb(125,87,195)] ${shared ? "text-[rgb(125,87,195)]":"text-gray-500"}`}>
             {icon}
         </div>

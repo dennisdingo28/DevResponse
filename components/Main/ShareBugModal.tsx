@@ -16,6 +16,7 @@ import useSocketStore from '@/hooks/useSocket';
 interface ShareBugProps{
     isOpen: boolean;
     onClose: Dispatch<SetStateAction<boolean>>;
+    shared: boolean;
     bug: Bug & {
       user: UserDB;
       sharedFrom: UserDB | null;
@@ -24,7 +25,7 @@ interface ShareBugProps{
     user: User;
 }
 
-const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,onClose,bug,user}) => {
+const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,shared,onClose,bug,user}) => {
   const [showImage,setShowImage] = useState(false);
   const socket = useSocketStore(state=>state.socket);
 
@@ -39,10 +40,7 @@ const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,onClose,bug,user}) => {
       toast.success("Bug was successfully shared !");
       if(socket)
       {
-        socket.emit(
-          "new_bug",
-          res.data.bug
-        );
+        socket.emit("new_bug",res.data.bug);
       }
     },
     onError:()=>{
@@ -94,10 +92,13 @@ const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,onClose,bug,user}) => {
                                   <h4 className="text-gray-400 text-[1em]">{bug.description}</h4>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-center">
-                              <Button disabled={isLoading} isLoading={isLoading} onClick={()=>share()} className='flex items-center text-[1.090em] gap-1 bg-darkBlue hover:bg-[#0f0f26] duration-150 p-2 rounded-md'>Share
+                            <div className="flex gap-1 items-center justify-center">
+                              <Button disabled={isLoading || shared || bug.userId===user.id} isLoading={isLoading} onClick={()=>share()} className='flex items-center text-[1.090em] gap-1 bg-darkBlue hover:bg-[#0f0f26] duration-150 p-2 rounded-md'>Share
                                 <BsShare className="text-[.8em]"/>
                               </Button>
+                              {shared && <p className='text-sm text-darkishBlue'>already shared</p>}
+                              {user.id===bug.userId && <p className='text-sm text-darkishBlue'>cannot share your own bug</p>}
+
                             </div>
                         </Dialog.Panel>
                     </div>

@@ -33,3 +33,4 @@ export async function POST(req: Request){
         return new NextResponse("Something went wrong. Please try again later!",{status:500})
     }
 }
+
