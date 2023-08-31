@@ -1,7 +1,8 @@
 "use client";
 import {
-  Bug,
+  Bug as BugDB,
   Comment as CommentDB,
+  Report,
   Share,
   User as UserDB,
 } from "@prisma/client";
@@ -21,9 +22,13 @@ import copyToClipboard from "@/lib/utils/copyToClipboard";
 import toast from "react-hot-toast";
 
 interface BugProps {
-  bug: Bug & {
+  bug: BugDB & {
     user: UserDB;
     shares: Array<Share & { user: UserDB }>;
+    reports: Array<Report & {
+      user: UserDB;
+      bug: BugDB ;
+    }> | null;
     comments: Array<
       CommentDB & {
         user: UserDB;

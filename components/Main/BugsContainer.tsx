@@ -17,6 +17,12 @@ const BugsContainer = async () => {
           user:true,
         }
       },
+      reports:{
+        include:{
+          user:true,
+          bug:true,
+        }
+      },
       comments:{
         orderBy:{
           createdAt:"desc"

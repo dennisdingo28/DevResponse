@@ -1,7 +1,7 @@
 "use client"
 
 
-import { Bug, User as UserDB, Comment as CommentDB, Share } from "@prisma/client";
+import { Bug, User as UserDB, Comment as CommentDB, Share, Report } from "@prisma/client";
 import BugRelevant from "./BugRelevant"
 import {BsCodeSlash} from "react-icons/bs"
 import {BsChatDots} from "react-icons/bs";
@@ -16,6 +16,10 @@ interface BugInteractionsProps{
   bug: Bug & {
     user: UserDB;
     shares: Array<Share & {user: UserDB}>;
+    reports: Array<Report & {
+      user: UserDB;
+      bug: Bug ;
+    }> | null;
     sharedFrom: UserDB | null;
     comments: Array<CommentDB & {
       user: UserDB
@@ -30,7 +34,7 @@ const BugInteractions:React.FC<BugInteractionsProps> = ({bug,user}) => {
         <BugRelevant icon={<BsCodeSlash/>} bug={bug} user={user}/>
         <BugComment icon={<BsChatDots/>} bug={bug} user={user}/>
         <BugShare icon={<CiShare1/>} bug={bug} user={user}/>
-        <BugReport icon={<AiOutlineAlert/>}/>
+        <BugReport icon={<AiOutlineAlert/>} bug={bug} user={user}/>
     </div>
   )
 }

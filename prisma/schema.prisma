@@ -18,6 +18,7 @@ model User {
   shares   Share[]
   sharedFrom    Bug[]     @relation("SharedFrom")
   comments Comment[]
+  reports Report[]
 }
 
 model Bug {
@@ -37,7 +38,7 @@ model Bug {
   isShared    Boolean @default(false)
   sharedFromId String?
   sharedFrom   User?     @relation("SharedFrom", fields: [sharedFromId], references: [id])
- 
+  reports Report[]
 }
 model Share {
   userId String
@@ -57,4 +58,12 @@ model Comment {
   userId      String
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
+}
+
+model Report {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId],references: [id], onDelete: Cascade)
+  bugId String
+  bug Bug @relation(fields: [bugId],references: [id], onDelete: Cascade)
 }

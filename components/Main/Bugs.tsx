@@ -1,13 +1,14 @@
 "use client";
+import Bug from "../ui/Bug";
 import {
   Bug as BugDB,
   Comment as CommentDB,
+  Report,
   Share,
   User as UserDB,
 } from "@prisma/client";
 import { useSocketStore } from "@/hooks/useSocket";
 import { useEffect, useState } from "react";
-import Bug from "../ui/Bug";
 import { User } from "next-auth";
 import { useRouter } from "next/navigation";
 
@@ -16,6 +17,10 @@ interface BugsProps {
     BugDB & {
       user: UserDB;
       sharedFrom: UserDB | null;
+      reports: Array<Report & {
+        user: UserDB;
+        bug: BugDB ;
+      }> | null;
       shares: Array<Share & {user: UserDB}>;
       comments: Array<
         CommentDB & {

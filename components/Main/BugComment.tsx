@@ -20,10 +20,10 @@ interface BugCommentProps{
 
 const BugComment: React.FC<BugCommentProps> = ({icon,bug,user}) => {
   const [isOpen,setIsOpen] = useState(false);
-  const [commented,setCommented] = useState(bug.comments.some(comment=>comment.userId===user.id));
+  const [commented,setCommented] = useState(bug.comments?.some(comment=>comment.userId===user.id) || false);
 
   useEffect(()=>{
-    setCommented(bug.comments.some(comment=>comment.userId===user.id));
+    setCommented(bug.comments?.some(comment=>comment.userId===user.id) || false);
   },[bug,bug.comments]);
   return (
     <div onClick={()=>setIsOpen(true)} className="flex items-center gap-1 group hover:bg-[rgba(45,102,239,.1)] duration-75 p-1 rounded-full">
