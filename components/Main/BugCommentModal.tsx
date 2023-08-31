@@ -13,7 +13,6 @@ import { toast } from "react-hot-toast";
 import { BsSendCheck } from "react-icons/bs";
 import useSocketStore from "@/hooks/useSocket";
 import ImagePreviewModal from "../ui/ImagePreviewModal";
-import UserProfile from "../ui/UserProfile";
 import SelectedBug from "../ui/SelectedBug";
 
 interface BugCommentProps {
@@ -98,11 +97,11 @@ const BugCommentModal: React.FC<BugCommentProps> = ({
           <div className="fixed inset-0 flex items-center justify-center p-4">
             <Dialog.Panel
               className={
-                "text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2 max-h-[400px] overflow-y-scroll overflowContainer"
+                "text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2 max-w-full"
               }
             >
-                <div className="w-full flex flex-col gap-2 lg:flex-row">
-                    <div className="w-full max-w-full lg:w-fit lg:max-w-fit">
+                <div className="w-full flex flex-col gap-2 lg:flex-row max-w-full">
+                    <div className="w-full max-w-full lg:w-fit lg:max-w-[400px]">
                     <Dialog.Title className={"font-bold text-center text-[1.1em]"}>
                     Share your solution with{" "}
                     <span className="text-sm text-[.93em] text-lightBlue">
@@ -179,9 +178,10 @@ const BugCommentModal: React.FC<BugCommentProps> = ({
                     )}
                     </div>
                 </div>
-
                     {selectedComment && (
-                       <SelectedBug selectedComment={selectedComment}/>
+                      <div className="w-full">
+                        <SelectedBug selectedComment={selectedComment}/>
+                      </div>
                     )}
                 </div>
               

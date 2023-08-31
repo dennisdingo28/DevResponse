@@ -10,7 +10,7 @@ interface SelectedBugProps {
 
 const SelectedBug: React.FC<SelectedBugProps> = ({ selectedComment }) => {
   return (
-    <div className="w-full overflow-y-scroll overflowContainer">
+    <div className="max-h-[547px] max-w-[700px] overflow-y-scroll overflowContainer">
       <div className="flex items-center">
         <UserProfile image={selectedComment.user.image} />
         <h3 className="font-bold text-[1.1em]">
@@ -22,7 +22,7 @@ const SelectedBug: React.FC<SelectedBugProps> = ({ selectedComment }) => {
         </h3>
       </div>
       <div className="">
-        <p className="max-w-[700px] break-words">
+        <p className="max-w-full break-words">
           {selectedComment.commentText}
         </p>
         {selectedComment.imageUrl && selectedComment.imageUrl.trim() !== "" && (
