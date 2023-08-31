@@ -12,6 +12,7 @@ import shareBug from '@/lib/api/shareBug';
 import { toast } from 'react-hot-toast';
 import { AxiosResponse } from 'axios';
 import useSocketStore from '@/hooks/useSocket';
+import { useRouter } from 'next/navigation';
 
 interface ShareBugProps{
     isOpen: boolean;
@@ -26,8 +27,11 @@ interface ShareBugProps{
 }
 
 const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,shared,onClose,bug,user}) => {
+  const router = useRouter();
+
   const [showImage,setShowImage] = useState(false);
   const socket = useSocketStore(state=>state.socket);
+
 
   const {mutate: share, isLoading} = useMutation({
     mutationFn: async()=>{
@@ -41,6 +45,7 @@ const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,shared,onClose,bug,user}
       if(socket)
       {
         socket.emit("new_bug",res.data.bug);
+        router.refresh();
       }
     },
     onError:()=>{

@@ -9,6 +9,7 @@ import { useSocketStore } from "@/hooks/useSocket";
 import { useEffect, useState } from "react";
 import Bug from "../ui/Bug";
 import { User } from "next-auth";
+import { useRouter } from "next/navigation";
 
 interface BugsProps {
   bugs: Array<
@@ -28,7 +29,7 @@ interface BugsProps {
 const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
   const [allBugs, setAllBugs] = useState(bugs);
   const socket = useSocketStore((state) => state.socket);
-
+  const router = useRouter();
   useEffect(() => {
     setAllBugs(bugs);
   }, [bugs]);
@@ -56,6 +57,12 @@ const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
           return bug;
         });
       });
+    });
+    socket.on("bug_delete_client",payload=>{
+      setAllBugs(prev=>{
+        return prev.filter(bug=>bug.id!==payload);
+      });
+      router.refresh();
     });
     socket.on("new_bug_unrelevant_client", (payload) => {
       setAllBugs((prev) => {

@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast"
 import { useMutation } from "@tanstack/react-query"
 import deleteBug from "@/lib/api/deleteBug"
 import { AxiosError } from "axios"
+import useSocketStore from "@/hooks/useSocket"
 
 interface ManageBugProps {
   bug: Bug & {
@@ -22,6 +23,9 @@ interface ManageBugProps {
 
 const ManageBug: React.FC<ManageBugProps> = ({bug,user}) => {
   const origin = useOrigin();
+  const socket = useSocketStore(state=>state.socket);
+
+
   const {mutate: removeBug, isLoading} = useMutation({
     mutationFn:async()=>{
       const res = await deleteBug(bug.id,user.token);
@@ -29,9 +33,11 @@ const ManageBug: React.FC<ManageBugProps> = ({bug,user}) => {
     },
     onSuccess:()=>{
       toast.success("Bug was successfully deleted !");
+      if(socket){
+        socket.emit("bug_delete",bug.id);
+      }
     },
     onError:(err: any)=>{
-      console.log("derror",err);
       
       if(err instanceof AxiosError){
         if(err.response?.data && err.response.data.trim()!=="")

@@ -16,13 +16,13 @@ interface BugShareProps {
 }
 
 const BugShare: React.FC<BugShareProps> = ({icon,bug,user}) => {
-  const [shared,setShared] = useState(false);
+  const [shared,setShared] = useState(bug.shares?.some(share=>share.userId===user.id));
   const [isOpen,setIsOpen] = useState(false);
 
   useEffect(()=>{
     const userShared = bug.shares?.some(share=>share.userId===user.id) || false;
     setShared(userShared);
-  },[bug]);
+  },[bug,bug.shares]);
 
 
   return (
