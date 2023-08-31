@@ -8,11 +8,11 @@ interface PopoverProps extends HTMLAttributes<HTMLDivElement>{
     title?: string;
     children?: React.ReactNode;
 }
-const Popover: React.FC<PopoverProps> = ({isOpen,title,children,className}) => {
+const Popover: React.FC<PopoverProps> = ({isOpen,title,children,className,...props}) => {
     if(!isOpen)
         return null;
   return (
-    <div className={cn("bg-softDarkBlue absolute z-10",className)}>
+    <div {...props} className={cn("bg-softDarkBlue absolute z-10",className)}>
         {title && title.trim()!=='' && <h3 className="text-start text-[.95em] font-bold whitespace-nowrap">{title}</h3>}
         <div className="">
             {children}

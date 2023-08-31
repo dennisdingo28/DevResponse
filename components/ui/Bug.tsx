@@ -15,6 +15,10 @@ import { User } from "next-auth";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import Popover from "./Popover";
 import ManageBug from "../Main/ManageBug";
+import PopoverItem from "./PopoverItem";
+import { PiCopySimpleThin } from "react-icons/pi";
+import copyToClipboard from "@/lib/utils/copyToClipboard";
+import toast from "react-hot-toast";
 
 interface BugProps {
   bug: Bug & {
@@ -33,6 +37,7 @@ interface BugProps {
 
 const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
   const [elapsedTimeString, setElapsedTimeString] = useState<string>("");
+  const [isOpen,setIsOpen] = useState(false);
 
   useEffect(() => {
     setElapsedTimeString(formatElapsedTime(bug.createdAt));
@@ -73,18 +78,36 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
             <div className="flex items-center gap-2">
               <SeeCode code={bug.code} language={bug.language} />
               <div className="flex items-center relative">
-                <BiDotsHorizontalRounded className="hover:text-slate-400 duration-75" />
-                <Popover isOpen={true} title="Manage bug" className="-bottom-14 right-4 p-1 rounded-sm">
-                  {bug.userId===user.id ? (
+                <BiDotsHorizontalRounded onClick={()=>setIsOpen(prev=>!prev)} className="hover:text-slate-400 duration-75" />
+                <Popover
+                  isOpen={isOpen}
+                  title="Manage bug"
+                  className={`${bug.userId===user.id ? "-bottom-14 right-4":"-bottom-10 right-4"} p-1 rounded-sm`}
+                >
+                  {bug.userId === user.id ? (
                     <div className="">
-                      <ManageBug bug={bug} user={user}/>
+                      <ManageBug bug={bug} user={user} />
                     </div>
                   ) : (
-                    <p></p>
+                    <div className="flex flex-col items-baseline">
+                      <div
+                        className="hover:text-lightBlue"
+                        onClick={async () => {
+                          await copyToClipboard(`${origin}/bugs/${bug.id}`);
+                          toast.success("Successfully copied to clipboard!");
+                        }}
+                      >
+                        <PopoverItem
+                          isLoading={false}
+                          disabled={false}
+                          icon={<PiCopySimpleThin />}
+                          text="copy bug link"
+                        />
+                      </div>
+                    </div>
                   )}
                 </Popover>
               </div>
-             
             </div>
           </div>
           {bug.isShared ? (
