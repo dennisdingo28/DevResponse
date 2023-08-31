@@ -6,7 +6,6 @@ import Button from "../ui/Button";
 import { Bug, User as UserDB, Comment as CommentDB } from "@prisma/client";
 import { User } from "next-auth";
 import HeaderImage from "./HeaderImage";
-import Image from "next/image";
 import Comment from "../ui/Comment";
 import { useMutation } from "@tanstack/react-query";
 import createComment from "@/lib/api/createComment";
@@ -58,9 +57,10 @@ const BugCommentModal: React.FC<BugCommentProps> = ({
     onSuccess: (res) => {
       console.log("nc", res);
 
-      if (socket && res.data.comment) {
-        socket.emit("new_bug_comment", res.data.comment);
-      }
+        if (socket && res.data.comment) {
+            socket.emit("new_bug_comment", res.data.comment);
+            socket.emit("new_response",{receiver:bug.userId,bug,comment,from:user})
+        }
       setCommented(true);
       setTimeout(() => {
         setCommented(false);

@@ -1,13 +1,22 @@
-import React from 'react'
+"use client"
+
+import useSocketStore from "@/hooks/useSocket";
+import { useEffect, useState } from "react"
 
 const NewResponses = () => {
+  const [text,setText] = useState("");
+  const socket = useSocketStore(state=>state.socket);
+
+  useEffect(()=>{
+    if(!socket) return;
+    socket.on("new_response_client",(comment)=>{
+      setText("new response");
+    });
+  },[socket]);
+
   return (
     <div>
-        <div className="">
-            <div className="">
-            <h3 className='font-bold text-[1.2em] text-center'>New bug responses</h3>
-            </div>
-        </div>
+        {text}
     </div>
   )
 }
