@@ -1,5 +1,5 @@
 import { RegisterRequest } from "@/validators";
-import { User } from "@prisma/client";
+import { Bug, User } from "@prisma/client";
 
 export interface NavbarLink {
     label: string;
@@ -20,4 +20,5 @@ export interface AuthTokenPayload {
 export interface Response {
     from: User;
     comment: string;
+    bug: Bug;
 }

@@ -1,7 +1,7 @@
 "use client"
 import { Bug, User } from '@prisma/client'
 import SideBug from '../ui/SideBug'
-import NewResponses from './NewResponses'
+import NewResponses from './LiveResponses'
 import { useEffect, useState } from 'react';
 import useSocketStore from '@/hooks/useSocket';
 
