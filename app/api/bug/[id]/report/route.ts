@@ -23,7 +23,6 @@ export async function POST(req: Request,{params}:{params:{id: string}}){
         });
         return NextResponse.json({msg:"Bug was successfully reported !",ok: true},{status:200});
     }catch(err){
-        console.log("r",err);
         
         if(err instanceof JsonWebTokenError)
             return new NextResponse("Invalid authorization token",{status:400})

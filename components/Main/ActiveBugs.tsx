@@ -27,7 +27,7 @@ const ActiveBugs: React.FC<ActiveBugsProps> = ({bugs}) => {
 
   return (
     <div className='lg:min-w-[250px] text-white'>
-      <div className="flex flex-col sm:flex-row">
+      <div className="flex flex-col sm:flex-row gap-3">
 
         <div className="flex flex-col flex-1">
             <div className="text-center">

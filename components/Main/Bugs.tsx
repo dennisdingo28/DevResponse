@@ -89,9 +89,14 @@ const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
       setAllBugs(prev=>{
         return prev.map(bug=>{
           if(bug.id===payload.bugId){
+            if(bug.comments){
+              return {
+                ...bug,
+                comments:[payload,...bug.comments],
+              }
+            }
             return {
               ...bug,
-              comments:[payload,...bug?.comments],
             }
           }
           return bug;
