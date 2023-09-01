@@ -17,10 +17,10 @@ const LiveResponses = () => {
       console.log(payload);
       toast.success(`New response from ${payload.from.name}`)
       setResponses((prev) => {
-        return [payload, ...prev];
+        return [payload,...prev];
       });
     });
-  }, [socket]);
+    },[socket]);
 
   return (
     <div>
@@ -30,7 +30,7 @@ const LiveResponses = () => {
         <div className="flex flex-col gap-4 max-h-[315px] overflow-y-scroll overflowContainer">
          {responses.map((response) => {
           return (
-            <div className="">
+            <div className="flex flex-col gap-1">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1">
                   {response.from?.image && response.from?.image.trim() !== "" && (
@@ -38,7 +38,7 @@ const LiveResponses = () => {
                   )}
                   <p>{response.from?.name}</p>
                 </div>
-                <p className="max-w-full truncate text-gray-400">{response.comment}</p>
+                <p className="max-w-[200px] truncate text-gray-400">{response.comment}</p>
               </div>
               
                 <div className="bg-[rgba(156,163,173,.1)] rounded-md p-2">
@@ -46,7 +46,7 @@ const LiveResponses = () => {
                       <h4 className="font-medium text-[1.1em]">{response.bug.title}</h4>
                       <p className="text-sm text-slate-500">{formatElapsedTime(response.bug.createdAt)}</p>
                     </div>
-                    <p>{response.bug.description}</p>
+                    <p className="max-w-[200px] truncate text-gray-400">{response.bug.description}</p>
                 </div>
             </div>
           );

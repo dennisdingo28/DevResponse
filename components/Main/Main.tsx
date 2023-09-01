@@ -1,7 +1,6 @@
 import React from "react";
 import BugsContainer from "./BugsContainer";
 import Header from "./Header";
-import Socket from "./Socket";
 import SocketContainer from "./SocketContainer";
 import ActiveBugsContainer from "./ActiveBugsContainer";
 

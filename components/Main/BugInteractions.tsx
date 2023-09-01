@@ -11,6 +11,7 @@ import BugComment from "./BugComment";
 import BugShare from "./BugShare";
 import BugReport from "./BugReport";
 import { User } from "next-auth";
+import BugPing from "./BugPing";
 
 interface BugInteractionsProps{
   bug: Bug & {
@@ -35,6 +36,9 @@ const BugInteractions:React.FC<BugInteractionsProps> = ({bug,user}) => {
         <BugComment icon={<BsChatDots/>} bug={bug} user={user}/>
         <BugShare icon={<CiShare1/>} bug={bug} user={user}/>
         <BugReport icon={<AiOutlineAlert/>} bug={bug} user={user}/>
+        {bug.userId===user.id && 
+          <BugPing bug={bug} user={user}/>
+        }
     </div>
   )
 }
