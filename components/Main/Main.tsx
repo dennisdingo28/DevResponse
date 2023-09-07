@@ -3,6 +3,7 @@ import BugsContainer from "./BugsContainer";
 import Header from "./Header";
 import SocketContainer from "./SocketContainer";
 import ActiveBugsContainer from "./ActiveBugsContainer";
+import LeftLinks from "./LeftLinks";
 
 const Main = () => {
   return (
@@ -14,7 +15,7 @@ const Main = () => {
         <div className="bg-blackBlue">
             <div className="flex">
                 <div className="flex-1 border-r-2 border-r-[#191d4d]">
-                    <h3>Links will be written here</h3>
+                    <LeftLinks/>
                 </div>
                 <div className="flex-[2]">
                     <div className="border-b-2 border-b-[#191d4d] pb-2">

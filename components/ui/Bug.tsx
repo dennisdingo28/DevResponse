@@ -19,10 +19,7 @@ import ManageBug from "../Main/ManageBug";
 import PopoverItem from "./PopoverItem";
 import { PiCopySimpleThin } from "react-icons/pi";
 import copyToClipboard from "@/lib/utils/copyToClipboard";
-import useSocketStore from "@/hooks/useSocket";
-import { toast, Toaster, ToastBar } from 'react-hot-toast';
-import BugPing from "../Main/BugPing";
-import PingPopover from "../Main/PingPopover";
+import { toast} from 'react-hot-toast';
 
 interface BugProps {
   bug: BugDB & {
@@ -46,19 +43,7 @@ interface BugProps {
 const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
   const [elapsedTimeString, setElapsedTimeString] = useState<string>("");
   const [isOpen,setIsOpen] = useState(false);
-  const [pingedBug,setPinged] = useState(false);
-  const socket = useSocketStore(state=>state.socket);
-
-
-  useEffect(()=>{
-    if(!socket) return;
-
-    socket.on("pingBug_client",payload=>{
-      console.log("got her");
-      
-      setPinged(true);
-    });
-  },[socket]);
+ 
 
 
 
@@ -68,13 +53,6 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
   return (
     <div className="hover:bg-darkBlue px-2 py-3 cursor-pointer duration-150 flex gap-1">
       <div className="">
-      {pingedBug && (
-        <div className="">
-          <div className="w-screen h-screen absolute bottom-0 right-2">
-            <PingPopover bug={bug} user={user}/>
-          </div>
-        </div>
-      )}
         <Image
           width={43}
           height={43}
