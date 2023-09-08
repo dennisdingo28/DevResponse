@@ -51,7 +51,7 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
     setElapsedTimeString(formatElapsedTime(bug.createdAt));
   }, [bug.createdAt]);
   return (
-    <div className="hover:bg-darkBlue px-2 py-3 cursor-pointer duration-150 flex gap-1">
+    <div className={`hover:bg-darkBlue px-2 py-3 cursor-pointer duration-150 flex gap-1 ${bug.solved && "border border-green-600"}`}>
       <div className="">
         <Image
           width={43}

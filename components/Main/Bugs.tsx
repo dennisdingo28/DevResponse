@@ -42,6 +42,8 @@ const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
   useEffect(() => {
     if (!socket) return;
 
+    
+
     socket.on("new_bug_client", (bug) => {
       setAllBugs((prev) => [bug, ...prev]);
     });
@@ -103,7 +105,15 @@ const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
         })
       })
     });
-
+    socket.on("bug_solved_client",id=>{
+      setAllBugs(prev=>{
+        return prev.map(bug=>{
+          if(bug.id===id)
+            bug.solved=true;
+          return bug;
+        });
+      });
+    });
   }, [socket]);
 
   return (

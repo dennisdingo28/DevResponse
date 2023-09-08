@@ -1,8 +1,12 @@
+import { Bug } from "@prisma/client";
 import BugRequests from "./BugRequest";
 import prismadb from "@/lib/db"
 
-const BugRequestsContainer = async () => {
-  const bugs = await prismadb.bug.findMany();
+interface BugRequestsContainerProps{
+  bugs: Array<Bug>;
+}
+
+const BugRequestsContainer: React.FC<BugRequestsContainerProps> = async ({bugs}) => {
   return (
     <BugRequests bugsAmount={bugs.length || 0}/>   
   )

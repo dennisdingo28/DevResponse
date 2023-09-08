@@ -31,9 +31,10 @@ model Bug {
   comments    Comment[]
   code        String?
   language    String?
+  solved      Boolean @default(false)
   createdAt   DateTime  @default(now())
   userId      String
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   shares      Share[]
   isShared    Boolean @default(false)
   sharedFromId String?
@@ -52,11 +53,11 @@ model Share {
 model Comment {
   id          String   @id @default(uuid())
   bugId       String
-  bug         Bug      @relation(fields: [bugId], references: [id])
+  bug         Bug      @relation(fields: [bugId], references: [id], onDelete: Cascade)
   commentText String
   imageUrl    String?
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
 }
 

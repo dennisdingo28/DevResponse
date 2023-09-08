@@ -35,7 +35,7 @@ const ActiveBugs: React.FC<ActiveBugsProps> = ({bugs}) => {
             </div>
             <div className="flex flex-col gap-[4px] max-h-[315px] overflow-y-scroll overflowContainer">
               {allBugs.map((bug,index,arr)=>(
-                <SideBug key={index} title={bug.title} status="requested" index={arr.length-index}/>
+                <SideBug key={index} title={bug.title} status={!bug.solved ? "requested":"solved"} index={arr.length-index}/>
               ))}
             </div>
         </div>
