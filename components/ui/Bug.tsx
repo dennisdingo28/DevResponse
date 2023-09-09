@@ -20,6 +20,7 @@ import PopoverItem from "./PopoverItem";
 import { PiCopySimpleThin } from "react-icons/pi";
 import copyToClipboard from "@/lib/utils/copyToClipboard";
 import { toast} from 'react-hot-toast';
+import BugPreviewModal from "../Main/PreviewBugModal";
 
 interface BugProps {
   bug: BugDB & {
@@ -43,7 +44,7 @@ interface BugProps {
 const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
   const [elapsedTimeString, setElapsedTimeString] = useState<string>("");
   const [isOpen,setIsOpen] = useState(false);
- 
+  const [previewBug,setPreviewBug] = useState(false);
 
 
 
@@ -51,7 +52,8 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
     setElapsedTimeString(formatElapsedTime(bug.createdAt));
   }, [bug.createdAt]);
   return (
-    <div className={`hover:bg-darkBlue px-2 py-3 cursor-pointer duration-150 flex gap-1 ${bug.solved && "border border-green-600"}`}>
+    <div onClick={()=>setPreviewBug(true)} className={`hover:bg-darkBlue px-2 py-3 cursor-pointer duration-150 flex gap-1 ${bug.solved && "border border-green-600"}`}>
+      <BugPreviewModal bug={bug} isOpen={previewBug} onClose={()=>setPreviewBug(false)}/>
       <div className="">
         <Image
           width={43}
@@ -86,14 +88,17 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
             <div className="flex items-center gap-2">
               <SeeCode code={bug.code} language={bug.language} />
               <div className="flex items-center relative">
-                <BiDotsHorizontalRounded onClick={()=>setIsOpen(prev=>!prev)} className="hover:text-slate-400 duration-75" />
+                <BiDotsHorizontalRounded onClick={(e: MouseEvent)=>{
+                  e.stopPropagation();
+                  setIsOpen(prev=>!prev)
+                }} className="hover:text-slate-400 duration-75" />
                 <Popover
                   isOpen={isOpen}
                   title="Manage bug"
                   className={`${bug.userId===user.id ? "-bottom-14 right-4":"-bottom-10 right-4"} p-1 rounded-sm`}
                 >
                   {bug.userId === user.id ? (
-                    <div className="">
+                    <div>
                       <ManageBug bug={bug} user={user} />
                     </div>
                   ) : (
@@ -140,10 +145,10 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
             </div>
           ) : (
             <div className="">
-              <h3 className="pl-1 text-[1.35em] text-darkGray font-medium">
+              <h3 className="pl-1 text-[1.35em] text-darkGray font-medium max-w-[210px] truncate">
                 {bug.title}
               </h3>
-              <h4 className="text-gray-400 text-[1em]">{bug.description}</h4>
+              <h4 className="text-gray-400 text-[1em] max-w-[300px] truncate">{bug.description}</h4>
             </div>
           )}
         </div>
@@ -153,7 +158,7 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
               src={bug.imageUrl}
               width={650}
               height={450}
-              className="rounded-md object-cover max-w-full w-full h-[450px] mx-auto"
+              className="rounded-md object-cover max-w-[650px] w-full h-[450px] mx-auto"
               quality={100}
               priority
               alt="uploaded image"

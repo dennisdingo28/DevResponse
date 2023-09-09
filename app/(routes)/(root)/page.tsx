@@ -2,13 +2,14 @@ import StatisticsDashboard from "@/components/Hero/StatisticsDashboard";
 import Main from "@/components/Main/Main";
 import Navbar from "@/components/Navbar/Navbar";
 
-export default function Home() {
+export default function Home({searchParams}:{searchParams: any}) {
+  
   return (
     <main>
         <Navbar/>
         <StatisticsDashboard/>
         <div className="mt-4">
-          <Main/>
+          <Main query={searchParams}/>
         </div>
     </main>
   )

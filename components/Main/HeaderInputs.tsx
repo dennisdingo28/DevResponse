@@ -20,6 +20,8 @@ interface HeaderInputsProps{
   user: User;
 }
 
+
+
 const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
   const socket = useSocketStore((state) => state.socket);
 
@@ -29,7 +31,7 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
   const [tags,setTags] = useState<Array<string>>([]);
   const [code,setCode] = useState<string>("");
   const [language,setLanguage] = useState<string>("plaintext");
-  
+
   const {mutate: createNewBug,isLoading} = useMutation({
     mutationFn: async()=>{
       let bugProps: BugRequest = {
@@ -73,6 +75,7 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
       }
 
       toast.success("Bug was successfully created !")
+      clearInputs();
     },
     onError:(err)=>{
       console.log(err);
@@ -80,10 +83,19 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
         toast.error(err.response?.data || err.message);
       else
         toast.error("Something went wrong. Please try again later !");
+        clearInputs();
     }
   });
   
-   
+  function clearInputs(){
+    setBugTitle("");
+    setBugDescription("");
+    setImageUrl("");
+    setTags([]);
+    setCode("");
+    setLanguage("plaintext")
+  }
+
   return (
     <div className="relative">
       <div className="flex flex-col md:flex-row gap-2">

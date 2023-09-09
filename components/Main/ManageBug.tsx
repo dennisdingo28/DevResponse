@@ -56,17 +56,22 @@ const ManageBug: React.FC<ManageBugProps> = ({bug,user}) => {
   });
 
   return (
-    <div className="flex flex-col items-baseline">
-        <div className="hover:text-lightBlue" onClick={async()=>{
+    <div className="flex flex-col items-baseline z-20">
+        <div className="hover:text-lightBlue" onClick={async(e)=>{
+            e.stopPropagation();
             await copyToClipboard(`${origin}/bugs/${bug.id}`);
             toast.success("Successfully copied to clipboard!");
         }}>
             <PopoverItem isLoading={false} disabled={false} icon={<PiCopySimpleThin/>} text="copy bug link"/>
         </div>
-        <div className={`hover:text-red-600`} onClick={()=>removeBug()}>
+        <div className={`hover:text-red-600`} onClick={(e)=>{
+          e.stopPropagation();
+          removeBug();
+        }}>
             <PopoverItem isLoading={isLoading} disabled={isLoading} icon={<PiTrashSimpleThin/>} text="delete bug"/>
         </div>
-        <div className={`hover:text-green-600 ${bug.solved && "pointer-events-none text-gray-400"}`} onClick={async()=>{
+        <div className={`hover:text-green-600 ${bug.solved && "pointer-events-none text-gray-400"}`} onClick={async(e)=>{
+          e.stopPropagation();
           try{
             setLoading(true);
             await solveBug(bug.id,user.token);            

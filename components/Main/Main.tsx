@@ -5,7 +5,10 @@ import SocketContainer from "./SocketContainer";
 import ActiveBugsContainer from "./ActiveBugsContainer";
 import LeftLinks from "./LeftLinks";
 
-const Main = () => {
+interface MainProps{
+    query: any;
+}
+const Main: React.FC<MainProps> = ({query}) => {
   return (
       <div className="text-white flex flex-col gap-6">
         <SocketContainer/>
@@ -22,7 +25,7 @@ const Main = () => {
                         <Header />
                     </div>
                     <div className="">
-                        <BugsContainer />
+                        <BugsContainer query={query}/>
                     </div>
                 </div>
                 

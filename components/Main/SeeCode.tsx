@@ -14,7 +14,10 @@ const SeeCode: React.FC<SeeCodeProps> = ({code,language}) => {
     return (
     <div>
         {code && code.trim()!=='' && (
-            <div className="" onClick={()=>setIsOpen(true)}>
+            <div className="" onClick={(e)=>{
+              e.stopPropagation();
+              setIsOpen(true);
+            }}>
                 <p className="text-lightBlue text-[.85em] font-roboto hover:text-darkishBlue duration-150">see code</p>
                 <SeeCodeModal isReadOnly={true} isOpen={isOpen} code={code} onClose={()=>setIsOpen(false)} language={language!}/>
             </div>

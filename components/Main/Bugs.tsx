@@ -32,6 +32,7 @@ interface BugsProps {
   user: User;
 }
 const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
+  
   const [allBugs, setAllBugs] = useState(bugs);
   const socket = useSocketStore((state) => state.socket);
   const router = useRouter();
@@ -41,8 +42,6 @@ const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
 
   useEffect(() => {
     if (!socket) return;
-
-    
 
     socket.on("new_bug_client", (bug) => {
       setAllBugs((prev) => [bug, ...prev]);
@@ -118,9 +117,14 @@ const Bugs: React.FC<BugsProps> = ({ bugs, user }) => {
 
   return (
     <div className="flex flex-col">
-      {allBugs.map((bug, index) => (
+      {allBugs.length>0 ? 
+      allBugs.map((bug, index) => (
         <Bug key={bug.id} bug={bug} user={user} index={index} />
-      ))}
+      ))
+      :
+      <p className="my-3 text-gray-500 text-sm text-center">no bugs were found :/</p>
+      }
+      
     </div>
   );
 };
