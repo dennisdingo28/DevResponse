@@ -94,7 +94,7 @@ const ShareBugModal: React.FC<ShareBugProps> = ({isOpen,shared,onClose,bug,user}
                             <div className="pl-2">
                                 <h3 className='font-medium text-darkGray text-[1.3em] max-w-[200px] truncate'>{bug.title}</h3>
                                 <div className="max-h-[350px] overflow-y-scroll overflowContainer">
-                                  <h4 className="text-gray-400 text-[1em]">{bug.description}</h4>
+                                  <h4 className="text-gray-400 text-[1em] max-w-[300px] truncate">{bug.description}</h4>
                                 </div>
                             </div>
                             <div className="flex gap-1 items-center justify-center">

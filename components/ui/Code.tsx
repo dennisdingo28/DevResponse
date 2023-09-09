@@ -26,7 +26,6 @@ const Code: React.FC<CodeProps>= ({setCodeText,code,language,isReadOnly}) => {
   return (
     <Editor
         height={"500px"}
-        width={"500px"}
         defaultLanguage={language}
         defaultValue={code}
         theme='vs-dark'
@@ -36,6 +35,7 @@ const Code: React.FC<CodeProps>= ({setCodeText,code,language,isReadOnly}) => {
             autoIndent:'full',
             minimap:{enabled:false},
           }}
+        className='min-w-[250px] max-w-[500px] w-full mx-auto'
     />
   )
 }

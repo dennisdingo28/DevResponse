@@ -45,7 +45,8 @@ const BugReport: React.FC<BugReportProps> = ({icon,bug,user}) => {
   })
 
   return (
-    <div onClick={()=>{
+    <div onClick={(e)=>{
+      e.stopPropagation();
       if(!reported)
         report()
       }

@@ -22,7 +22,8 @@ const BugPing: React.FC<BugPingProps> = ({user,bug}) => {
     
     return (
     <div>
-      <button onClick={()=>{
+      <button onClick={(e)=>{
+        e.stopPropagation();
         pingBug({user,bug,socket});
         toast.success("Successfully queued !");
       }} className="border-2 border-green-500 font-medium hover:bg-green-500 duration-150 p-1 rounded-md text-[.9em]">

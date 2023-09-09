@@ -35,9 +35,9 @@ const SeeCodeModal: React.FC<SeeCodeProps> = ({isOpen,onClose,language,code,isRe
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-                <Dialog open={isOpen} onClose={onClose} className={"relative z-50"}>
+                <Dialog open={isOpen} onClose={onClose} className={"relative z-50 "}>
                     <div className="fixed inset-0 flex items-center justify-center p-4">
-                        <Dialog.Panel className={"text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2"}>
+                        <Dialog.Panel className={"text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2 w-full max-w-[500px] mx-auto"}>
                             <Dialog.Title className={"font-bold text-center text-[1.2em]"}>Attached Code</Dialog.Title>
                             <p className='text-[.9em] text-slate-500'>Language: {language}</p>
                             <Code isReadOnly={isReadOnly} setCodeText={()=>{}} code={code} language={language}/>

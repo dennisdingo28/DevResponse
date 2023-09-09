@@ -49,7 +49,8 @@ const BugRelevant: React.FC<BugRelevantProps> = ({ icon, bug , user }) => {
   });
   
   return (
-    <div onClick={()=>{
+    <div onClick={(e)=>{
+        e.stopPropagation();
         setLiked(!liked);
     }} className="flex items-center gap-1 group hover:bg-[rgba(29,183,107,.1)] duration-75 p-1 rounded-full">
       <div className={`group-hover:text-[rgb(29,183,107)] duration-75 ${!liked ? "text-gray-500":"text-[rgb(29,183,107)]"}`}>

@@ -11,6 +11,7 @@ import {
 } from "@prisma/client";
 import Image from "next/image";
 import SeeCode from "./SeeCode";
+import formatElapsedTime from "@/lib/utils/formatTime";
 
 interface BugPreviewProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ const BugPreviewModal: React.FC<BugPreviewProps> = ({
   onClose,
   bug,
 }) => {
+    const elapsedTimeString = formatElapsedTime(bug.createdAt);
   return (
     <Transition show={isOpen}>
       <Transition.Child
@@ -77,11 +79,12 @@ const BugPreviewModal: React.FC<BugPreviewProps> = ({
                 </div>
               )}
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
                     <UserProfile image={bug.user?.image} username={bug.user?.name} />
                     {bug.isShared && (
                         <small className="italic text-slate-700">shared</small>
                     )}
+                    <p className="text-sm text-slate-500">{elapsedTimeString}</p>
                 </div>
                 <div className="cursor-pointer">
                     <SeeCode code={bug.code} language={bug.language}/>
