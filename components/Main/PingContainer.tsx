@@ -52,7 +52,7 @@ const PingContainer = () => {
           <p className="text-center text-gray-600 text-sm italic">no current pings. wow :)</p>
         </div>
         :
-        <div className="">
+        <div className={queue[0]?.bug.solved ? "border border-green-600 p-1 rounded-md":""}>
           <div className="flex">
               <UserProfile username={queue[0]?.bug.user.name} image={queue[0]?.bug.user.image}/>
           </div>

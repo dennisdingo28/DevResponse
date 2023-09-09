@@ -1,9 +1,12 @@
 import PingContainer from './PingContainer'
+import SearchBug from './SearchBug'
 
 const LeftLinks = () => {
   return (
     <div className='p-2'>
-        <p className='mb-2 mt-1'>left links</p>
+      <div className="border-b">
+        <SearchBug/>
+      </div>
         <PingContainer/>
     </div>
   )

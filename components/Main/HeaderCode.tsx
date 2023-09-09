@@ -17,7 +17,7 @@ const HeaderCode: React.FC<HeaderCodeProps> = ({setCode,setLanguage,language,cod
       <AttachCodeModal isOpen={isOpen} code={code} onClose={()=>setIsOpen(false)} language={language} setLanguage={setLanguage} setCode={setCode}/>
       <div className="flex cursor-pointer items-center gap-2 text-lightBlue hover:text-[#2661ed] duration-150" onClick={()=>setIsOpen(true)}>
         <BsCodeSlash/>
-        <small>attach code</small>
+        <small className="whitespace-nowrap">attach code</small>
       </div>
     </div>
   )

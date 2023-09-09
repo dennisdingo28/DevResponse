@@ -96,6 +96,10 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
                 className="text-[1.35em] bg-transparent outline-none text-darkGray font-medium placeholder:font-thin pl-1 w-full"
                 onChange={(e)=>setBugTitle(e.target.value)}
               />
+              <div className="flex items-center gap-5">
+                <HeaderCode language={language} setLanguage={setLanguage} setCode={setCode} code={code}/>
+                <HeaderImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
+              </div>
             </div>
             <div className="mt-2 ml-2 flex w-full">
               <LuSubtitles className="text-[1.1em]" />
@@ -135,10 +139,7 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
           </div>
         </div>
         <div className="absolute right-1 top-1">
-          <div className="flex items-center gap-5">
-            <HeaderCode language={language} setLanguage={setLanguage} setCode={setCode} code={code}/>
-            <HeaderImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
-          </div>
+          
         </div>
       </div>
     </div>

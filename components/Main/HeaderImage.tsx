@@ -26,7 +26,7 @@ const HeaderImage: React.FC<HeaderImageProps> = ({imageUrl,setImageUrl}) => {
               <div className="flex" onClick={onClick}>
                 <div className="flex cursor-pointer items-center gap-2 text-lightBlue hover:text-[#2661ed] duration-150">
                   <BsCardImage />
-                  <small>upload an image</small>
+                  <small className="whitespace-nowrap">upload an image</small>
                 </div>
               </div>
             );

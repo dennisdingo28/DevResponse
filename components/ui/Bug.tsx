@@ -133,7 +133,7 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
                   ))}
                 </div>
               </div>
-              <h3 className="pl-1 text-[1.35em] text-darkGray font-medium">
+              <h3 className="pl-1 text-[1.35em] text-darkGray font-medium max-w-[200px] truncate">
                 {bug.title}
               </h3>
               <h4 className="text-gray-400 text-[1em]">{bug.description}</h4>
