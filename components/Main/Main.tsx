@@ -4,6 +4,7 @@ import Header from "./Header";
 import SocketContainer from "./SocketContainer";
 import ActiveBugsContainer from "./ActiveBugsContainer";
 import LeftLinks from "./LeftLinks";
+import ChatContainer from "./ChatContainer";
 
 interface MainProps{
     query: any;
@@ -30,7 +31,7 @@ const Main: React.FC<MainProps> = ({query}) => {
                 </div>
                 
                 <div className="flex-1 hidden lg:flex justify-end border-l-2 border-l-[#191d4d]">
-                    groups & chat will be here
+                    <ChatContainer/>
                 </div>
             </div>
         </div>

@@ -102,7 +102,7 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
         <div className="flex-1 flex flex-col">
           <div className="flex-1">
             <div className="flex flex-col-reverse sm:flex-row sm:items-center w-full">
-              <div className="flex items-center my-1">
+              <div className="flex flex-1 items-center my-1">
                 <MdOutlineTitle className="text-[1.5em]" />
                 <input
                   placeholder="Title your bug"

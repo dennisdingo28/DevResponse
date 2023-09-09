@@ -163,6 +163,7 @@ const BugCommentModal: React.FC<BugCommentProps> = ({
                         <div className="w-full flex flex-col gap-5 max-h-[315px] overflow-y-scroll overflowContainer">
                         {bug.comments.map((comment, index) => (
                             <div
+                            key={index}
                             className="cursor-pointer hover:bg-[rgba(255,255,255,.1)] p-1 rounded-md"
                             onClick={() => setSelectedComment(comment)}
                             >

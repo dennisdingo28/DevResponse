@@ -38,3 +38,9 @@ export const ShareValidator = z.object({
     bugId: z.string({required_error:"You must provide a valid bug id"}),
     userId: z.string({required_error:"You must provide an user id"}),
 });
+
+export const FindAccountValidator = z.object({
+    username: z.optional(z.string()),
+    email: z.optional(z.string()),
+});
+export type FindAccountRequest = z.infer<typeof FindAccountValidator>;
