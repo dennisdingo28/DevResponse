@@ -13,7 +13,7 @@ interface HeaderCodeProps{
 const HeaderCode: React.FC<HeaderCodeProps> = ({setCode,setLanguage,language,code}) => {
   const [isOpen,setIsOpen] = useState<boolean>(false);
   return (
-    <div className=''>
+    <div className='w-full max-w-[500px] mx-auto'>
       <AttachCodeModal isOpen={isOpen} code={code} onClose={()=>setIsOpen(false)} language={language} setLanguage={setLanguage} setCode={setCode}/>
       <div className="flex cursor-pointer items-center gap-2 text-lightBlue hover:text-[#2661ed] duration-150" onClick={()=>setIsOpen(true)}>
         <BsCodeSlash/>

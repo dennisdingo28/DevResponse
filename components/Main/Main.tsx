@@ -17,7 +17,7 @@ const Main: React.FC<MainProps> = ({query}) => {
         </div>
         <div className="bg-blackBlue">
             <div className="flex">
-                <div className="flex-1 border-r-2 border-r-[#191d4d]">
+                <div className="flex-1 border-r-2 border-r-[#191d4d] hidden md:block">
                     <LeftLinks/>
                 </div>
                 <div className="flex-[2]">
@@ -29,7 +29,7 @@ const Main: React.FC<MainProps> = ({query}) => {
                     </div>
                 </div>
                 
-                <div className="flex-1 flex justify-end border-l-2 border-l-[#191d4d]">
+                <div className="flex-1 hidden lg:flex justify-end border-l-2 border-l-[#191d4d]">
                     groups & chat will be here
                 </div>
             </div>

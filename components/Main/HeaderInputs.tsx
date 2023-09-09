@@ -101,14 +101,16 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
       <div className="flex flex-col md:flex-row gap-2">
         <div className="flex-1 flex flex-col">
           <div className="flex-1">
-            <div className="flex items-center w-full">
-              <MdOutlineTitle className="text-[1.5em]" />
-              <input
-                placeholder="Title your bug"
-                className="text-[1.35em] bg-transparent outline-none text-darkGray font-medium placeholder:font-thin pl-1 w-full"
-                onChange={(e)=>setBugTitle(e.target.value)}
-              />
-              <div className="flex items-center gap-5">
+            <div className="flex flex-col-reverse sm:flex-row sm:items-center w-full">
+              <div className="flex items-center my-1">
+                <MdOutlineTitle className="text-[1.5em]" />
+                <input
+                  placeholder="Title your bug"
+                  className="text-[1.35em] bg-transparent outline-none text-darkGray font-medium placeholder:font-thin pl-1 w-full"
+                  onChange={(e)=>setBugTitle(e.target.value)}
+                />
+              </div>
+              <div className="flex items-center justify-center gap-5">
                 <HeaderCode language={language} setLanguage={setLanguage} setCode={setCode} code={code}/>
                 <HeaderImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
               </div>

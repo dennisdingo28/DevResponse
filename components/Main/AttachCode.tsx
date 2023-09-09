@@ -40,7 +40,7 @@ const AttachCodeModal: React.FC<AttachCodeProps> = ({isOpen,onClose,setCode,setL
           >
                 <Dialog open={isOpen} onClose={onClose} className={"relative z-50"}>
                     <div className="fixed inset-0 flex items-center justify-center p-4">
-                        <Dialog.Panel className={"text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2"}>
+                        <Dialog.Panel className={"text-darkGray bg-softDarkBlue p-2 rounded-md space-y-2 w-full max-w-[500px] mx-auto"}>
                             <Dialog.Title className={"font-bold text-center text-[1.2em]"}>Put your code here</Dialog.Title>
                             <p className='text-[.9em] text-slate-500'>Choose your language</p>
                             <select value={language} onChange={(e)=>setLanguage(e.target.value)} className='text-darkGray bg-transparent outline-none'>
