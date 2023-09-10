@@ -8,6 +8,7 @@ import { User as LoggedUser } from "next-auth";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import {BiLoaderAlt} from "react-icons/bi";
+import { useRef } from "react";
 
 interface SearchUserProps{
     user: LoggedUser;
@@ -16,9 +17,12 @@ interface SearchUserProps{
 const SearchUser: React.FC<SearchUserProps> = ({user}) => {
     const [searchedUser,setSearchedUser] = useState<string>("");
     const [results,setResults] = useState<Array<User>>([]);
+    const [show,setShow] = useState(false);
     const [loading,setLoading] = useState(false);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
-    console.log("searchred",results);
+    console.log(results);
+    
     
     useEffect(()=>{
         async function searchUser(name: string){
@@ -29,24 +33,42 @@ const SearchUser: React.FC<SearchUserProps> = ({user}) => {
                     Authorization:`Bearer ${user.token}`,
                 },
             });
-            console.log("axios",res);
             
             setResults(res.data.users);
         }
         setTimeout(async ()=>{
             try{
                 setLoading(true);
+                setShow(true);
                 if(searchedUser.trim()==='')
                     setResults([]);
                 else
                     await searchUser(searchedUser);
             }catch(err){
+                setShow(false);
                 toast.error("Something went wrong. Please try again later !");
             }finally{
                 setLoading(false);
             }
         },1000);
     },[searchedUser]);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+          if (
+            containerRef.current &&
+            event.target &&
+            !containerRef.current.contains(event.target as Node)
+          ) {
+            setShow(false);
+          }
+        }
+    
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, []);
 
   return (
     <div className='w-full px-2 relative'>
@@ -58,7 +80,7 @@ const SearchUser: React.FC<SearchUserProps> = ({user}) => {
             }
         </div>
         <div className="absolute p-1 -bottom-15 left-0 right-0 w-full">
-            <div className={`bg-slate-700 rounded-md duration-150 ${results && results.length>0 ? "opacity-100 z-10 relative":"absolute opacity-0 -z-10"}`}>
+            <div ref={containerRef} className={`bg-slate-700 rounded-md duration-150 ${searchedUser.trim()!=="" && show ? "opacity-100 z-10 relative":"absolute opacity-0 -z-10"}`}>
                 <SearchResults results={results}/>
             </div>
         </div>
