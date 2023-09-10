@@ -14,7 +14,7 @@ export async function POST(req: Request){
 
         //validating incoming object payload
         FindAccountValidator.parse(payload);
-        if(payload.username && payload.username.trim()!==''){
+        if(payload.username){
             const users = await prismadb.user.findMany({
                 where:{
                     name:{
