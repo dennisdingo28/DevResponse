@@ -19,8 +19,17 @@ model User {
   sharedFrom    Bug[]     @relation("SharedFrom")
   comments Comment[]
   reports Report[]
+  conversations Conversation[] @relation("CurrentUser")
+  recipients  Conversation[] @relation("RecipientUser")
 }
-
+model Conversation{
+  userId String
+  user User @relation("CurrentUser",fields: [userId],references: [id])
+  recipientId String
+  recipient User @relation("RecipientUser",fields: [recipientId],references: [id])
+  messages String[]
+  @@id([userId,recipientId])
+}
 model Bug {
   id          String    @id @default(uuid())
   title       String
