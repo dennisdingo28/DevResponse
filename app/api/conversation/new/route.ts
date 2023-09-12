@@ -3,7 +3,6 @@ import prismadb from "@/lib/db";
 import { ConversationRequest, ConversationValidator } from "@/validators";
 import { JsonWebTokenError } from "jsonwebtoken";
 import { NextResponse } from "next/server";
-import { BiObjectsVerticalCenter } from "react-icons/bi";
 import { ZodError } from "zod";
 
 export async function POST(req: Request){
@@ -12,6 +11,10 @@ export async function POST(req: Request){
         const authorizationToken = req.headers.get("authorization")?.split(" ")[1] || "";
         const user = AuthorizationToken(authorizationToken);
         ConversationValidator.parse(payload);
+
+        if(user.id===payload.recipientId)
+            return NextResponse.json({msg:"Cannot open a conversation with yourself !"},{status:200});
+
         const conversationAlreadyExists = await prismadb.conversation.findUnique({
             where:{
                 userId_recipientId:{

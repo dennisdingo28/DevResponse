@@ -27,4 +27,4 @@ const StatisticsDashboard = () => {
   )
 }
 
-export default StatisticsDashboard
+export default StatisticsDashboard;
