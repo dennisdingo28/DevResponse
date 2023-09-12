@@ -44,3 +44,10 @@ export const FindAccountValidator = z.object({
     email: z.optional(z.string()),
 });
 export type FindAccountRequest = z.infer<typeof FindAccountValidator>;
+
+
+export const ConversationValidator = z.object({
+    userId: z.string(),
+    recipientId: z.string(),
+});
+export type ConversationRequest = z.infer<typeof ConversationValidator>;

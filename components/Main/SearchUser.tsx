@@ -81,7 +81,7 @@ const SearchUser: React.FC<SearchUserProps> = ({user}) => {
         </div>
         <div className="absolute p-1 -bottom-15 left-0 right-0 w-full">
             <div ref={containerRef} className={`bg-slate-700 rounded-md duration-150 ${searchedUser.trim()!=="" && show ? "opacity-100 z-10 relative":"absolute opacity-0 -z-10"}`}>
-                <SearchResults results={results}/>
+                <SearchResults results={results} user={user}/>
             </div>
         </div>
     </div>

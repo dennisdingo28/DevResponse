@@ -1,4 +1,3 @@
-
 import prismadb from "@/lib/db"
 import Bugs from "./Bugs";
 import { getAuthSession } from "@/lib/auth";
