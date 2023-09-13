@@ -19,7 +19,7 @@ interface ConversationModalProps{
 }
 
 const ConversationUserModal: React.FC<ConversationModalProps> = ({conversation,user,isOpen,onClose}) => {
-    const {register, handleSubmit, formState:{errors}} = useForm({
+    const {register, handleSubmit} = useForm({
         defaultValues:{
             message:"",
         },
