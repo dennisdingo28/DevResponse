@@ -15,8 +15,6 @@ const LoginForm = () => {
 
     const [showErrors,setShowErrors] = useState<boolean>(false);
     
-    const [imageUrl,setImageUrl] = useState<string>("");
-    const [showPassword,setShowPassword] = useState<boolean>(false);
 
     const {register,handleSubmit,formState:{errors}} = useForm({
         resolver:zodResolver(LoginValidator),

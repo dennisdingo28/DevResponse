@@ -51,3 +51,10 @@ export const ConversationValidator = z.object({
     recipientId: z.string(),
 });
 export type ConversationRequest = z.infer<typeof ConversationValidator>;
+
+export const ConversationSendValidator = z.object({
+    userId: z.string(),
+    recipientId: z.string(),
+    message:z.string(),
+});
+export type ConversationSendRequest = z.infer<typeof ConversationSendValidator>;
