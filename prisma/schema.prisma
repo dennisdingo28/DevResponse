@@ -33,13 +33,13 @@ model Conversation{
   @@id([userId,recipientId])
 }
 model Message {
+  id String @id @default(uuid())
   userId String
   user User @relation("userMessage",fields: [userId],references: [id])
   recipientId String
   recipient User @relation("receiverUser",fields: [recipientId],references: [id])
   conversation Conversation @relation(fields: [userId,recipientId],references: [userId,recipientId])
   message String
-  @@id([userId,recipientId])
 }
 model Bug {
   id          String    @id @default(uuid())

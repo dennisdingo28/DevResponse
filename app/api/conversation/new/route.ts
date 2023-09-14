@@ -30,7 +30,6 @@ export async function POST(req: Request){
             data:{
                 userId:payload.userId,
                 recipientId:payload.recipientId,
-                messages:[],
             },
         });
 
