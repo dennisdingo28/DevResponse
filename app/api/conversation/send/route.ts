@@ -11,22 +11,31 @@ import { ZodError } from "zod";
 export async function POST(req: Request) {
   try {
     const payload: ConversationSendRequest = await req.json();
-    const authorizationToken =
-      req.headers.get("authorization")?.split(" ")[1] || "";
+    const authorizationToken = req.headers.get("authorization")?.split(" ")[1] || "";
     const user = AuthorizationToken(authorizationToken);
     ConversationSendValidator.parse(payload);
 
-    await prismadb.conversation.update({
-      where: {
-        userId_recipientId:{
-          userId:payload.userId,
-          recipientId:payload.recipientId,
-        },
-      },
-      data: {
-        messages: {
-          push: payload.message,
-        },
+    // await prismadb.conversation.update({
+    //   where: {
+    //     userId_recipientId:{
+    //       userId:payload.userId,
+    //       recipientId:payload.recipientId,
+    //     },
+    //   },
+    //   data: {
+    //     messages: {
+    //       push: {
+            
+    //       },
+    //     },
+    //   },
+    // });
+
+    await prismadb.message.create({
+      data:{
+        userId:payload.userId,
+        recipientId:payload.recipientId,
+        message:payload.message,
       },
     });
 

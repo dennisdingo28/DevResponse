@@ -21,6 +21,12 @@ const OpenConversationContainer: React.FC<OpenConversationContainerProps> = asyn
     include:{
       user:true,
       recipient:true,
+      messages:{
+        include:{
+          user:true,
+          recipient:true,
+        },
+      },
     },
   });
   

@@ -1,6 +1,6 @@
 "use client"
 
-import { Conversation, User } from "@prisma/client"
+import { Conversation, Message, User } from "@prisma/client"
 import UserProfile from "./UserProfile"
 import { User as LoggedUser } from "next-auth";
 import ConversationUserModal from "../Main/ConversationModal";
@@ -10,7 +10,11 @@ interface ConversationUserProps{
     conversation: Conversation & {
         user: User,
         recipient: User,
-    }
+        messages: Array<Message & {
+            user: User,
+            recipient: User
+        }>,
+    };
     user:  LoggedUser;
 }
 

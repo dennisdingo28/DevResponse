@@ -2,7 +2,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Dispatch, Fragment, SetStateAction, useState} from 'react';
 import { User as LoggedUser } from "next-auth";
-import { Conversation, User } from "@prisma/client"
+import { Conversation, Message, User } from "@prisma/client"
 import UserProfile from '../ui/UserProfile';
 import {BsSend} from "react-icons/bs";
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,11 @@ interface ConversationModalProps{
     conversation: Conversation & {
         user: User,
         recipient: User,
-    }
+        messages: Array<Message & {
+            user: User,
+            recipient: User
+        }>,
+    };
     user:  LoggedUser;
     isOpen: boolean;
     onClose: Dispatch<SetStateAction<boolean>>;
@@ -24,6 +28,7 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({conversation,u
             message:"",
         },
     });
+    
     return (
     <Transition show={isOpen}>
         <Transition.Child
@@ -52,9 +57,15 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({conversation,u
                             <UserProfile image={conversation.recipient.id===user.id ? conversation.user.image:conversation.recipient.image} username={conversation.recipient.id===user.id ? conversation.user.name:conversation.recipient.name}/>                            
                             <div className='bg-blackBlue rounded-md p-1'>
                                 <div className="min-h-[300px] max-h-[500px] h-full min-w-[240px] w-full max-w-[500px]">
-                                    {!conversation.messages || conversation.messages.length===0 &&
+                                    {!conversation.messages || conversation.messages.length===0 ?
                                         (
                                             <p className='text-sm text-center text-gray-700'>no current messsages</p>
+                                        )
+                                        :
+                                        (
+                                            <div className="">
+                                                {conversation.messages[0].message}
+                                            </div>
                                         )
                                     }
                                 </div>

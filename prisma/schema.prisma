@@ -21,13 +21,24 @@ model User {
   reports Report[]
   conversations Conversation[] @relation("CurrentUser")
   recipients  Conversation[] @relation("RecipientUser")
+  messages Message[] @relation("userMessage")
+  receiversUsers Message[] @relation("receiverUser")
 }
 model Conversation{
   userId String
   user User @relation("CurrentUser",fields: [userId],references: [id])
   recipientId String
   recipient User @relation("RecipientUser",fields: [recipientId],references: [id])
-  messages String[]
+  messages Message[]
+  @@id([userId,recipientId])
+}
+model Message {
+  userId String
+  user User @relation("userMessage",fields: [userId],references: [id])
+  recipientId String
+  recipient User @relation("receiverUser",fields: [recipientId],references: [id])
+  conversation Conversation @relation(fields: [userId,recipientId],references: [userId,recipientId])
+  message String
   @@id([userId,recipientId])
 }
 model Bug {
