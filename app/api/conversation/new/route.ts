@@ -15,15 +15,21 @@ export async function POST(req: Request){
         if(user.id===payload.recipientId)
             return NextResponse.json({msg:"Cannot open a conversation with yourself !"},{status:200});
 
-        const conversationAlreadyExists = await prismadb.conversation.findUnique({
+        const conversationAlreadyExists = await prismadb.conversation.findMany({
             where:{
-                userId_recipientId:{
-                    userId: user.id,
-                    recipientId:payload.recipientId,
-                },
+                OR:[
+                    {
+                        userId:user.id,
+                        recipientId:payload.recipientId
+                    },
+                    {
+                        userId:payload.recipientId,
+                        recipientId:user.id,
+                    }
+                ]
             },
         });
-        if(conversationAlreadyExists)
+        if(conversationAlreadyExists && conversationAlreadyExists.length>0)
             return NextResponse.json({msg:"Conversation already exists !"},{status:200});
 
         const newConversation = await prismadb.conversation.create({

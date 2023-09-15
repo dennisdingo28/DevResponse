@@ -8,7 +8,7 @@ import { JsonWebTokenError } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
-export async function POST(req: Request) {
+export async function POST(req: Request){
   try {
     const payload: ConversationSendRequest = await req.json();
     const authorizationToken = req.headers.get("authorization")?.split(" ")[1] || "";
@@ -33,6 +33,7 @@ export async function POST(req: Request) {
 
     await prismadb.message.create({
       data:{
+        conversationId:payload.conversationId,
         userId:payload.userId,
         recipientId:payload.recipientId,
         message:payload.message,

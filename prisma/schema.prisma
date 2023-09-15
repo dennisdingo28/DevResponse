@@ -25,20 +25,21 @@ model User {
   receiversUsers Message[] @relation("receiverUser")
 }
 model Conversation{
+  id String @id @default(uuid())
   userId String
-  user User @relation("CurrentUser",fields: [userId],references: [id])
+  user User @relation("CurrentUser",fields: [userId],references: [id], onDelete: Cascade)
   recipientId String
-  recipient User @relation("RecipientUser",fields: [recipientId],references: [id])
+  recipient User @relation("RecipientUser",fields: [recipientId],references: [id], onDelete: Cascade)
   messages Message[]
-  @@id([userId,recipientId])
 }
 model Message {
   id String @id @default(uuid())
   userId String
-  user User @relation("userMessage",fields: [userId],references: [id])
+  user User @relation("userMessage",fields: [userId],references: [id], onDelete: Cascade)
   recipientId String
-  recipient User @relation("receiverUser",fields: [recipientId],references: [id])
-  conversation Conversation @relation(fields: [userId,recipientId],references: [userId,recipientId])
+  recipient User @relation("receiverUser",fields: [recipientId],references: [id], onDelete: Cascade)
+  conversationId String
+  conversation Conversation @relation(fields: [conversationId],references: [id], onDelete: Cascade)
   message String
 }
 model Bug {

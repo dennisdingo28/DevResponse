@@ -91,9 +91,9 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({
                           return (
                             <div className="flex flex-col">
                               {msg.userId === user.id ? (
-                                <div className="flex  justify-end">
+                                <div className="flex justify-end">
                                   <div className="flex items-center flex-row-reverse">
-                                    <UserProfile image={msg.user.image} />
+                                    <UserProfile image={user.image!} />
                                     {msg.message}
                                   </div>
                                 </div>
@@ -116,6 +116,7 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({
                   onSubmit={handleSubmit((data) => {
                     if (user.id !== conversation.recipientId) {
                       sendMessage(
+                        conversation.id,
                         data.message,
                         user.id,
                         conversation.recipientId,
@@ -123,9 +124,10 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({
                       );
                     } else {
                       sendMessage(
+                        conversation.id,
                         data.message,
-                        conversation.userId,
                         user.id,
+                        conversation.userId,
                         user.token
                       );
                     }
