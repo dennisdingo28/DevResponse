@@ -1,12 +1,13 @@
 "use client";
 import { Dialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import { User as LoggedUser } from "next-auth";
 import { Conversation, Message, User } from "@prisma/client";
 import UserProfile from "../ui/UserProfile";
 import { BsSend } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import sendMessage from "@/lib/api/sendMessage";
+import useSocketStore from "@/hooks/useSocket";
 
 interface ConversationModalProps {
   conversation: Conversation & {
@@ -30,11 +31,23 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const socket = useSocketStore(state=>state.socket);
+
   const { register, handleSubmit } = useForm({
     defaultValues: {
       message: "",
     },
   });
+  const [convMessages,setConvMessages] = useState(conversation.messages);
+  const [isLoading,setIsLoading] = useState(false);
+  useEffect(()=>{
+    if(!socket) return;
+    socket.on("new_message_client",payload=>{
+      const alreadyExists = convMessages.some(msg=>msg.id===payload.id);
+      if(!alreadyExists)
+        setConvMessages(prev=>[...prev,{...payload}]);
+    });
+  },[socket]);
 
   return (
     <Transition show={isOpen}>
@@ -78,28 +91,28 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({
                 }
               />
               <div className="bg-blackBlue rounded-md p-1">
-                <div className="min-h-[300px] max-h-[500px] h-full min-w-[240px] w-full max-w-[500px]">
-                  {!conversation.messages ||
-                  conversation.messages.length === 0 ? (
+                <div className="min-h-[300px] max-h-[500px] h-full min-w-[240px] w-full max-w-[500px] overflow-y-scroll overflowContainer">
+                  {!convMessages ||
+                  convMessages.length === 0 ? (
                     <p className="text-sm text-center text-gray-700">
                       no current messsages
                     </p>
                   ) : (
                     <div className="">
-                      <div className="">
-                        {conversation.messages.map((msg) => {
+                      <div className="flex flex-col gap-2">
+                        {convMessages.map((msg) => {
                           return (
                             <div className="flex flex-col">
                               {msg.userId === user.id ? (
                                 <div className="flex justify-end">
-                                  <div className="flex items-center flex-row-reverse">
+                                  <div className="flex items-center gap-1 flex-row-reverse">
                                     <UserProfile image={user.image!} />
                                     {msg.message}
                                   </div>
                                 </div>
                               ) : (
                                 <div className="flex items-start">
-                                    <div className="flex items-center">
+                                    <div className="flex items-center gap-1">
                                         <UserProfile image={msg.user.image}/>
                                         {msg.message}
                                     </div>
@@ -113,31 +126,46 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({
                   )}
                 </div>
                 <form
-                  onSubmit={handleSubmit((data) => {
+                  onSubmit={handleSubmit(async (data) => {
                     if (user.id !== conversation.recipientId) {
-                      sendMessage(
+                      setIsLoading(true);
+                      const res = await sendMessage(
                         conversation.id,
                         data.message,
                         user.id,
                         conversation.recipientId,
                         user.token
                       );
+                      setIsLoading(false);
+                      if(socket){
+                        socket.emit("new_message",{user,message:data.message,id:res.data.newMessage.id,recipientId:conversation.recipientId});
+                      }
+                      //@ts-ignore
+                      setConvMessages(prev=>[...prev,{user,userId:user.id,conversationId:conversation.id,message:data.message,id:res.data.newMessage.id,recipientId:conversation.recipientId,recipient:conversation.recipient}]);
                     } else {
-                      sendMessage(
+                      setIsLoading(true);
+                      const res = await sendMessage(
                         conversation.id,
                         data.message,
                         user.id,
                         conversation.userId,
                         user.token
                       );
+                      setIsLoading(false);
+                      if(socket){
+                        socket.emit("new_message",{user,message:data.message,id:res.data.newMessage.id,recipientId:conversation.userId});
+                      }
+                      //@ts-ignore
+                      setConvMessages(prev=>[...prev,{user,userId:user.id,conversationId:conversation.id,message:data.message,id:res.data.newMessage.id,recipientId:conversation.userId,recipient:conversation.user}])
                     }
                   })}
                 >
                   <div className="flex items-center gap-2">
                     <input
+                      disabled={isLoading}
                       {...register("message")}
                       placeholder="write a message"
-                      className="placeholder:text-xs flex-1 py-1 text-sm w-full outline-none bg-[rgba(20,23,59,.5)] rounded-md focus:ring-2 px-2"
+                      className={`placeholder:text-xs flex-1 py-1 text-sm w-full outline-none bg-[rgba(20,23,59,.5)] rounded-md focus:ring-2 px-2 ${isLoading && "bg-[rgba(255,255,255,.1)] pointer-events-none"}`}
                     />
                     <BsSend className="text-sm text-gray-400 cursor-pointer" />
                   </div>

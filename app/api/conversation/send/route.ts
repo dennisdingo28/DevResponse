@@ -31,7 +31,7 @@ export async function POST(req: Request){
     //   },
     // });
 
-    await prismadb.message.create({
+    const newMessage = await prismadb.message.create({
       data:{
         conversationId:payload.conversationId,
         userId:payload.userId,
@@ -41,7 +41,7 @@ export async function POST(req: Request){
     });
 
     return NextResponse.json(
-      { msg: "Successfully send the message !" },
+      { msg: "Successfully send the message !", newMessage},
       { status: 200 }
     );
   } catch (err) {
