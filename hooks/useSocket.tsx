@@ -13,7 +13,7 @@ export const useSocketStore = create<SocketStore>((set) => ({
 }))
 
 export function initializeSocket(id: string){
-  const newSocket = io('http://localhost:5000',{query:{id}})
+  const newSocket = io('https://dev-response-server.onrender.com',{query:{id}})
   useSocketStore.setState({ socket: newSocket })
   return ()=>{
     useSocketStore.setState({socket:null});
