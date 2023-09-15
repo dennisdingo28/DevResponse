@@ -107,14 +107,18 @@ const ConversationUserModal: React.FC<ConversationModalProps> = ({
                                 <div className="flex justify-end">
                                   <div className="flex items-center gap-1 flex-row-reverse">
                                     <UserProfile image={user.image!} />
-                                    {msg.message}
+                                    <div className="">
+                                      <p className="break-words">{msg.message}</p>
+                                    </div>
                                   </div>
                                 </div>
                               ) : (
                                 <div className="flex items-start">
                                     <div className="flex items-center gap-1">
                                         <UserProfile image={msg.user.image}/>
-                                        {msg.message}
+                                        <div className="">
+                                          <p className="break-words">{msg.message}</p>
+                                        </div>
                                     </div>
                                 </div>
                               )}
