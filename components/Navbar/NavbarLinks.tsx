@@ -1,4 +1,3 @@
-import NavLink from "../ui/NavLink"
 import SignOut from "../ui/SignOut"
 import LoggedAccount from "./LoggedAccount"
 import { Suspense } from "react"
