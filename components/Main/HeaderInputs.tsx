@@ -110,7 +110,7 @@ const HeaderInputs: React.FC<HeaderInputsProps> = ({user}) => {
                   onChange={(e)=>setBugTitle(e.target.value)}
                 />
               </div>
-              <div className="flex items-center justify-center gap-5">
+              <div className="flex items-center justify-center gap-5 p-1">
                 <HeaderCode language={language} setLanguage={setLanguage} setCode={setCode} code={code}/>
                 <HeaderImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
               </div>

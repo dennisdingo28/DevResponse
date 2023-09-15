@@ -3,10 +3,7 @@ import { Bug, User } from "@prisma/client";
 import { Socket } from "socket.io-client";
 import { User as AuthUser } from "next-auth";
 
-export interface NavbarLink {
-    label: string;
-    link: string;
-}
+
 export interface RegistrationPayload extends RegisterRequest{
     image?:string;
 }

@@ -20,7 +20,7 @@ const OpenConversation: React.FC<OpenConversationProps> = ({conversations,user})
     if(!conversations || conversations.length===0)
         return (
             <div className="">
-                <p>no current open conversation</p>
+                <p className="text-center text-sm text-gray-500">no current open conversation search for one person and create one</p>
             </div>
         )
   

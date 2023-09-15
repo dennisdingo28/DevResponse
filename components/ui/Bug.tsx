@@ -68,11 +68,14 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
       <div className="flex-1">
         <div className="">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <p className="font-thin text-darkGray">{bug.user.name}</p>
-              <p className="text-sm text-slate-500">{elapsedTimeString}</p>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <div className="flex items-center gap-1">
+                <p className="font-thin text-darkGray">{bug.user.name}</p>
+                <p className="text-sm text-slate-500">{elapsedTimeString}</p>
+              </div>
+              
               {!bug.isShared && (
-                <div className="flex items-center text-slate-600 text-sm gap-1">
+                <div className="flex items-center self-center text-slate-600 text-sm gap-1">
                   {bug.tags.map((tag, index) => (
                     <p key={index} className="hover:underline">
                       #{tag}
@@ -165,7 +168,7 @@ const Bug: React.FC<BugProps> = ({ bug, index, user }) => {
             />
           </div>
         )}
-        <div className="">
+        <div className="mt-2">
           <BugInteractions bug={bug} user={user} />
         </div>
       </div>

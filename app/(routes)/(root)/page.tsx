@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar/Navbar";
 export default function Home({searchParams}:{searchParams: any}) {
   
   return (
-    <main>
+    <main className="pb-3">
         <Navbar/>
         <StatisticsDashboard/>
         <div className="mt-4">

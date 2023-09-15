@@ -1,20 +1,11 @@
 import NavbarLinks from "./NavbarLinks";
-import MobileNavigation from "./MobileNavigation";
 
 const Navigation = () => {
   return (
     <div className="">
-
-
-      <div className="hidden sm:block">
+      <div className="">
         <NavbarLinks />
       </div>
-
-      <div className="sm:hidden">
-        <MobileNavigation/>
-      </div>
-      
-
     </div>
   );
 };

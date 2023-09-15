@@ -17,10 +17,19 @@ const Main: React.FC<MainProps> = ({query}) => {
             <ActiveBugsContainer/>
         </div>
         <div className="bg-blackBlue">
-            <div className="flex">
-                <div className="flex-1 border-r-2 border-r-[#191d4d] hidden md:block">
-                    <LeftLinks/>
+            <div className="flex flex-col gap-2 lg:gap-0 lg:flex-row">
+                
+                <div className="pb-5 lg:pb-0 flex flex-col w-full flex-1">
+                    <div className="flex-1 border-r-2 border-r-[#191d4d]">
+                        <LeftLinks/>
+                    </div>
+                    <div className="lg:hidden">
+                        <div className="flex-1 flex justify-end border-l-2 border-l-[#191d4d]">
+                            <ChatContainer/>
+                        </div>
+                    </div>
                 </div>
+                
                 <div className="flex-[2]">
                     <div className="border-b-2 border-b-[#191d4d] pb-2">
                         <Header />

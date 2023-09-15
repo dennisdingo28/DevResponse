@@ -8,6 +8,7 @@ import createConversation from "@/lib/api/createConversation";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import {BiLoaderAlt} from "react-icons/bi";
+import { useRouter } from "next/navigation";
 
 interface SearchResultsProps {
   results: Array<User>;
@@ -15,6 +16,8 @@ interface SearchResultsProps {
 }
 
 const SearchResults: React.FC<SearchResultsProps> = ({ results, loggedUser }) => {
+  const router = useRouter();
+
   const [recipientConversationId,setRecipientConversationId] = useState<string>("") //selected to create
   const {mutate: newConversation,isLoading} = useMutation({
     mutationFn:async(recipientId: string)=>{
@@ -26,13 +29,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, loggedUser }) =>
       if(res.data.msg)
         toast.success(res.data.msg);
       else toast.success("Conversation was successfully createad !");
+      router.refresh();
     },
     onError:()=>{
       toast.error("Something went wrong. Please try again later !");
     }
   })
   return (
-    <div className="w-full flex flex-col items-baseline">
+    <div className="w-full flex flex-col items-baseline max-h-[200px] overflow-y-scroll overflowContainer">
       {results && results.length > 0 ? (
         results.map((user) => (
             <div onClick={()=>newConversation(user.id)} className={`hover:bg-slate-800 w-full ${!isLoading ? "rounded-md":"rounded-none"} p-1 cursor-pointer flex flex-col items-start duration-150 ${isLoading && "pointer-events-none bg-slate-800"}`}>
