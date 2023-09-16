@@ -7,15 +7,15 @@ import { LoginRequest, LoginValidator } from "@/validators";
 import { useEffect, useState } from "react";
 import loginAccount from "@/lib/api/loginAccount";
 import { useMutation } from "@tanstack/react-query";
-import {AxiosError} from "axios";
 import { toast } from "react-hot-toast";
 import Button from "@/components/ui/Button";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
 
     const [showErrors,setShowErrors] = useState<boolean>(false);
     
-
+    const router = useRouter();
     const {register,handleSubmit,formState:{errors}} = useForm({
         resolver:zodResolver(LoginValidator),
         defaultValues:{
@@ -34,6 +34,7 @@ const LoginForm = () => {
                 toast.success(data.error);
             else
                 toast.success("Successfully logged in !");
+            router.push("/");    
         },
         onError:(err: any)=>{
             toast.error((err as Error).message);

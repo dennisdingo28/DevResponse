@@ -21,7 +21,7 @@ const AuthTabs = () => {
         </Tab.Panels>
         <Tab.List>
           <Tab onClick={()=>setLoginForm(true)} className={`${loginForm ? "opacity-0 -z-10 absolute":"opacity-100 z-0 text-slate-500 text-[.9em] mt-3 hover:underline"}`}>I already have an account</Tab>
-          <Tab onClick={()=>setLoginForm(false)} className={`${loginForm ? "opacity-100 z-0 text-slate-500 text-[.9em] mt-3 hover:underline":"opacity-0 -z-10 absolute"}`}>Create new account</Tab>
+          <Tab onClick={()=>setLoginForm(false)} className={`${loginForm ? "opacity-100 z-0 text-slate-500 text-[.9em] mt-3 hover:underline":"opacity-0 -z-10 absolute flex items-center"}`}>Create a new account</Tab>
         </Tab.List>
       </Tab.Group>
     </div>
